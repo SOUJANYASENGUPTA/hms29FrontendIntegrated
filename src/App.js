@@ -8,8 +8,8 @@ import './App.css';
 import Patient from './pages/Patients/Patient';
 import MedicalRecords from './pages/MedicalRecords/MedicalRecords'
 import Staff from './pages/Staff/Staff';
-import Pharmacy from './pages/pharmacy/Pharmacy';
-import Inventory from './pages/inventory/Inventory';
+import Pharmacy from './pages/Pharmacy/Pharmacy';
+import Inventory from './pages/Inventory/Inventory';
 function App () {
   return(
     <Router>
