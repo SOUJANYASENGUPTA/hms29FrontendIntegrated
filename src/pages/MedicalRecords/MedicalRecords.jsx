@@ -5,12 +5,13 @@ import SettingsIcon from '../../assets/icons/settings.svg';
 import axios from 'axios';
 import './MedicalRecord.css'
 import Swal from 'sweetalert2';
-import { clear } from '@testing-library/user-event/dist/clear';
-const Patient = () => {
+import '../../components/DashboardHeader/styles.css'
+
+const MedicalRecord = () => {
     const [records, setRecords] = useState([]);
     const [edit, setEdit] = useState(false);
     const [add, setAdd] = useState(false);
-    const[recordId,setRecordId]=useState('')
+    const [recordId, setRecordId] = useState('')
     const [patientId, setPatientId] = useState('')
     const [doctorId, setDoctorId] = useState('')
     const [diagnosis, setDiagnosis] = useState('')
@@ -19,7 +20,7 @@ const Patient = () => {
     const [prescription, setPrescription] = useState('')
     const [error, setError] = useState("")
     const [checkValid, setCheckValid] = useState(false);
-    const [selectedRecord, setSelectedRecord] = useState({});
+    const [searchQuery, setSearchQuery] = useState('');
     const fetchRecords = async () => {
         await axios.get('http://localhost:8080/medical-records').then((response) => {
             setRecords(response.data);
@@ -74,7 +75,7 @@ const Patient = () => {
         setEdit(false);
         clearFields();
     }
-    const handleEditSubmit=async(e)=>{
+    const handleEditSubmit = async (e) => {
         e.preventDefault();
         const formattedDate = new Date(date).toISOString().split('T')[0];
         console.log(date);
@@ -103,6 +104,7 @@ const Patient = () => {
         })
     }
     const handleAddSubmit = async (e) => {
+        console.log(patientId)
         e.preventDefault();
         var formattedDate = new Date(date).toISOString().split('T')[0];
         const record = {
@@ -127,7 +129,7 @@ const Patient = () => {
             clearFields();
         })
     }
-    const clearFields=()=>{
+    const clearFields = () => {
         setRecordId('')
         setDiagnosis('')
         setDoctorId('')
@@ -161,9 +163,13 @@ const Patient = () => {
                         <h2>Medical Records List</h2>
                         <div className='dashboard-content-search'>
                             <input
-                                type='text'
-                                placeholder='Search..'
+                                type='number'
+                                placeholder='Search...'
                                 className='dashboard-content-input'
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                min="1"
+                                inputMode="numeric"
                             />
                         </div>
                     </div>
@@ -178,24 +184,30 @@ const Patient = () => {
                             <th>DOCTOR ID</th>
                             <th>ACTIONS</th>
                         </thead>
-                        {records.length !== 0 && <tbody>
-                            {records.map((record) => {
-                                return <tr key={record.id}>
-                                    <td><span>{record.id}</span></td>
-                                    <td><span>{record.date}</span></td>
-                                    <td><span>{record.diagnosis.length<14?record.diagnosis:record.diagnosis.substring(0,14)+"..."}</span></td>
-                                    <td><span>{record.prescription.length<14?record.prescription:record.prescription.substring(0,14)+"..."}</span></td>
-                                    <td><span>{record.notes.length<14?record.notes:record.notes.substring(0,14)+"..."}</span></td>
-                                    <td><span>{record.patient_id}</span></td>
-                                    <td><span>{record.doctor_id}</span></td>
-                                    <td>
-                                        <button onClick={()=>handleEdit(record)} className='edit-save-btn'>Edit</button>
-                                        <button onClick={() => handleDelete(record.id)} className='edit-back-btn'>Delete</button>
-                                        <button className='view-btn'>View</button>
-                                    </td>
-                                </tr>
-                            })}
-                        </tbody>
+                        {records.length !== 0 ?
+                            <tbody>
+                                {records
+                                    .filter(record => {
+                                        return (
+                                            record.id.toString().includes(searchQuery)
+                                        );
+                                    }).map((record) => {
+                                        return <tr key={record.id}>
+                                            <td><span>{record.id}</span></td>
+                                            <td><span>{record.date}</span></td>
+                                            <td><span>{record.diagnosis.length < 14 ? record.diagnosis : record.diagnosis.substring(0, 14) + "..."}</span></td>
+                                            <td><span>{record.prescription.length < 14 ? record.prescription : record.prescription.substring(0, 14) + "..."}</span></td>
+                                            <td><span>{record.notes.length < 14 ? record.notes : record.notes.substring(0, 14) + "..."}</span></td>
+                                            <td><span>{record.patient_id}</span></td>
+                                            <td><span>{record.doctor_id}</span></td>
+                                            <td>
+                                                <button onClick={() => handleEdit(record)} className='edit-save-btn'>Edit</button>
+                                                <button onClick={() => handleDelete(record.id)} className='edit-back-btn'>Delete</button>
+                                                <button className='view-btn'>View</button>
+                                            </td>
+                                        </tr>
+                                    })}
+                            </tbody>:<>Not found</>
                         }
                     </table>
                 </div>}
@@ -245,7 +257,7 @@ const Patient = () => {
                         </div>
                         <div>
                             <form onSubmit={handleAddSubmit}>
-                            <label htmlFor="">Patient Id</label>
+                                <label htmlFor="">Patient Id</label>
                                 <br />
                                 <input type="number" name="" id="" className='medical-record-input' value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
                                 <br />
@@ -280,4 +292,4 @@ const Patient = () => {
     )
 }
 
-export default Patient
+export default MedicalRecord
