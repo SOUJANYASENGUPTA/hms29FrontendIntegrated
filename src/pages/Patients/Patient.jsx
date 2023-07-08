@@ -34,7 +34,7 @@ const Patient = () => {
             fetchPatients();
         })
     }
-    const isValidPhoneNumber = (phoneNumber) => {
+    /* const isValidPhoneNumber = (phoneNumber) => {
         const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
         return phoneRegex.test(phoneNumber);
       };
@@ -42,7 +42,7 @@ const Patient = () => {
       const isValidEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-      };
+      }; */
     const handleDelete = (id) => {
         Swal.fire({
             title: 'Do you want to Delete?',
@@ -110,14 +110,14 @@ const Patient = () => {
         e.preventDefault();
 
     // Validate phone number and email
-    if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
+    /* if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
         Swal.fire({
           icon: 'error',
           title: 'Invalid phone number or email',
           text: 'Please enter a valid phone number and email address',
         });
         return;
-      }
+      } */
         const updatedPatient = {
             id: patientId,
             name: name,
@@ -147,14 +147,14 @@ const Patient = () => {
     const handleAddSubmit = async (e) => {
         e.preventDefault();
         // Validate phone number and email
-    if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Invalid phone number or email',
-          text: 'Please enter a valid phone number and email address',
-        });
-        return;
-      }
+    /* if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid phone number or email',
+        text: 'Please enter a valid phone number and email address',
+      });
+      return;
+    } */
         const patient = {
             name: name,
             age: age,

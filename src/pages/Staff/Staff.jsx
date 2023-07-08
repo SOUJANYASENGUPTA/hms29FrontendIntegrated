@@ -49,7 +49,7 @@ const Staff = () => {
             }
         })
     }
-    const isValidPhoneNumber = (phoneNumber) => {
+    /* const isValidPhoneNumber = (phoneNumber) => {
         const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
         return phoneRegex.test(phoneNumber);
       };
@@ -57,7 +57,7 @@ const Staff = () => {
       const isValidEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-      };
+      }; */
     const handleEdit = (staff) => {
         setEdit(true);
         setName(staff.name)
@@ -103,14 +103,14 @@ const Staff = () => {
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         // Validate phone number and email
-    if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
+   /*  if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
         Swal.fire({
           icon: 'error',
           title: 'Invalid phone number or email',
           text: 'Please enter a valid phone number and email address',
         });
         return;
-      }
+      } */
         const updatedstaff = {
             id: staffId,
             name: name,
@@ -140,14 +140,14 @@ const Staff = () => {
     const handleAddSubmit = async (e) => {
         e.preventDefault();
         // Validate phone number and email
-    if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
+   /*  if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
         Swal.fire({
           icon: 'error',
           title: 'Invalid phone number or email',
           text: 'Please enter a valid phone number and email address',
         });
         return;
-      }
+      } */
         const staff = {
             name: name,
             age: age,
