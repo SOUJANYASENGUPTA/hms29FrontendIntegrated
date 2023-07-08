@@ -6,46 +6,46 @@ import UserIcon from '../assets/icons/user.svg';
 const sidebar_menu = [
     {
         id: 1,
-        icon: DashboardIcon,
-        path: '/',
-        title: 'Dashboard',
-    },
-    {
-        id: 2,
-        icon: ProductIcon,
+        icon: UserIcon,
         path: '/patients',
         title: 'Patient',
     },
     {
-        id: 3,
+        id: 2,
         icon: ShippingIcon,
         path: '/staff',
         title: 'Staff',
     },
     {
-        id: 4,
+        id: 3,
         icon: ShippingIcon,
         path: '/pharmacy',
         title: 'Pharmacy',
     },
     {
-        id: 5,
+        id: 4,
         icon: ShippingIcon,
         path: '/inventory',
         title: 'Inventory',
     },
     {
-        id: 6,
+        id: 5,
         icon: ShippingIcon,
         path: '/records',
         title: 'Medical Records',
     },
+    /* {
+        id: 6,
+        icon: UserIcon,
+        path: '/appointment',
+        title: 'Appointments',
+    },
     {
         id: 7,
         icon: UserIcon,
-        path: '/profile',
-        title: 'My account',
-    }
+        path: '/billing',
+        title: 'Billing',
+    } */
 ]
 
 export default sidebar_menu;

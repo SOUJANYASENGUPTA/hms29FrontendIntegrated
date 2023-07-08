@@ -144,7 +144,7 @@ const MedicalRecord = () => {
                 <div className='dashbord-header-container'>
                     {!edit && !add && <button className='dashbord-header-btn' onClick={handleNewRecord}>New Record</button>}
                     {(edit || add) && <button className='dashbord-header-btn' onClick={handleBack}>Back to Records</button>}
-                    <div className='dashbord-header-right'>
+                    {/* <div className='dashbord-header-right'>
                         <img
                             src={NotificationIcon}
                             alt='notification-icon'
@@ -156,7 +156,7 @@ const MedicalRecord = () => {
                         <img
                             className='dashbord-header-avatar'
                             src='https://reqres.in/img/faces/9-image.jpg' />
-                    </div>
+                    </div> */}
                 </div>
                 {!edit && !add && <div className='dashboard-content-container'>
                     <div className='dashboard-content-header'>

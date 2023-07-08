@@ -7,7 +7,7 @@ import './styles.css';
 import logo from '../../assets/images/neww-logo.png'
 import LogoutIcon from '../../assets/icons/logout.svg';
 
-function SideBar ({ menu }) {
+function SideBar ({ menu , signOut, user }) {
     const location = useLocation();
 
     const [active, setActive] = useState(1);
@@ -33,7 +33,7 @@ function SideBar ({ menu }) {
                         alt="logo" />
                     
                 </div>
-
+                <span className='sidebar-item-label' style={{color:'white'}}>Welcome {user.phoneNumber}</span>
                 <div className='sidebar-container'>
                     <div className='sidebar-items'>
                         {menu.map((item, index) => (
@@ -45,8 +45,8 @@ function SideBar ({ menu }) {
                         ))}
                     </div>
 
-                    <div className='sidebar-footer'>
-                        <span className='sidebar-item-label'>Logout</span>
+                    <div className='sidebar-footer' >
+                        <span className='sidebar-item-label' onClick={signOut}>Logout</span>
                         <img 
                             src={LogoutIcon}
                             alt='icon-logout'

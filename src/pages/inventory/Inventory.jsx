@@ -132,7 +132,7 @@ const Inventory = () => {
         <div className='dashbord-header-container'>
                     {!edit && !add && <button className='dashbord-header-btn' onClick={handleNewRecord}>New Inventory</button>}
                     {(edit || add) && <button className='dashbord-header-btn' onClick={handleBack}>Back to Inventory</button>}
-                    <div className='dashbord-header-right'>
+                    {/* <div className='dashbord-header-right'>
                         <img
                             src={NotificationIcon}
                             alt='notificationIcon'
@@ -144,7 +144,7 @@ const Inventory = () => {
                         <img
                             className='dashbord-header-avatar'
                             src='https://reqres.in/img/faces/9-image.jpg' alt="dashImage" />
-                    </div>
+                    </div> */}
                 </div>
                 {!edit && !add && <div className='dashboard-content-container'>
                     <div className='dashboard-content-header'>
