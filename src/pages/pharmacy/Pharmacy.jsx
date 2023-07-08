@@ -137,6 +137,7 @@ const Pharmacy = () => {
                     {!edit && !add && <button className='dashbord-header-btn' onClick={handleNewRecord}>New pharmacy</button>}
                     {(edit || add) && <button className='dashbord-header-btn' onClick={handleBack}>Back to pharmacy</button>}
                     {/* <div className='dashbord-header-right'>
+                    {/*<div className='dashbord-header-right'>
                         <img
                             src={NotificationIcon}
                             alt='notificationIcon'
@@ -148,7 +149,7 @@ const Pharmacy = () => {
                         <img
                             className='dashbord-header-avatar'
                             src='https://reqres.in/img/faces/9-image.jpg' alt="dashImage" />
-                    </div> */}
+                    </div>*/}
                 </div>
                 {!edit && !add && <div className='dashboard-content-container'>
                     <div className='dashboard-content-header'>
