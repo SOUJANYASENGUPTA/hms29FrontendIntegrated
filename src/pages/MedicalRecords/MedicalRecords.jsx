@@ -75,6 +75,21 @@ const MedicalRecord = () => {
         setEdit(false);
         clearFields();
     }
+    const handleView = (record) => {
+        Swal.fire({
+          title: 'Medical Record Details',
+          html: `
+            <p><strong>Patient ID:</strong> ${record.patient_id}</p>
+            <p><strong>Doctor ID:</strong> ${record.doctor_id}</p>
+            <p><strong>Date:</strong> ${record.date}</p>
+            <p><strong>Diagnosis:</strong> ${record.diagnosis}</p>
+            <p><strong>Prescription:</strong> ${record.prescription}</p>
+            <p><strong>Notes:</strong> ${record.notes}</p>
+          `,
+          confirmButtonText: 'Close',
+          showConfirmButton: true,
+        });
+      };
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         const formattedDate = new Date(date).toISOString().split('T')[0];
@@ -177,9 +192,9 @@ const MedicalRecord = () => {
                         <thead>
                             <th>ID</th>
                             <th>DATE</th>
-                            <th>DIAGNOSIS</th>
+                            {/* <th>DIAGNOSIS</th> */}
                             <th>PRESCRIPTION</th>
-                            <th>NOTES</th>
+                            {/* <th>NOTES</th> */}
                             <th>PATIENT ID</th>
                             <th>DOCTOR ID</th>
                             <th>ACTIONS</th>
@@ -195,15 +210,15 @@ const MedicalRecord = () => {
                                         return <tr key={record.id}>
                                             <td><span>{record.id}</span></td>
                                             <td><span>{record.date}</span></td>
-                                            <td><span>{record.diagnosis.length < 14 ? record.diagnosis : record.diagnosis.substring(0, 14) + "..."}</span></td>
+                                            {/* <td><span>{record.diagnosis.length < 14 ? record.diagnosis : record.diagnosis.substring(0, 14) + "..."}</span></td> */}
                                             <td><span>{record.prescription.length < 14 ? record.prescription : record.prescription.substring(0, 14) + "..."}</span></td>
-                                            <td><span>{record.notes.length < 14 ? record.notes : record.notes.substring(0, 14) + "..."}</span></td>
+                                            {/* <td><span>{record.notes.length < 14 ? record.notes : record.notes.substring(0, 14) + "..."}</span></td> */}
                                             <td><span>{record.patient_id}</span></td>
                                             <td><span>{record.doctor_id}</span></td>
                                             <td>
                                                 <button onClick={() => handleEdit(record)} className='edit-save-btn'>Edit</button>
                                                 <button onClick={() => handleDelete(record.id)} className='edit-back-btn'>Delete</button>
-                                                <button className='view-btn'>View</button>
+                                                <button className='view-btn' onClick={() => handleView(record)}>View</button>
                                             </td>
                                         </tr>
                                     })}

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import '../styles.css';
-import NotificationIcon from '../../assets/icons/notification.svg';
-import SettingsIcon from '../../assets/icons/settings.svg';
 import axios from 'axios';
 import '../MedicalRecords/MedicalRecord.css'
 import Swal from 'sweetalert2';
+
 const Patient = () => {
     const [patients, setPatients] = useState([]);
     const [edit, setEdit] = useState(false);
@@ -19,10 +18,12 @@ const Patient = () => {
     const [medicalHistory, setMedicalHistory] = useState('')
     const [treatmentPlan, setTreatmentPlan] = useState('')
     const [searchQuery, setSearchQuery] = useState('');
+    const[pagination,setPagination] = useState([]);
     const fetchPatients = async () => {
         await axios.get('http://localhost:8080/patient').then((response) => {
             setPatients(response.data);
         })
+        
     }
     useEffect(() => {
         fetchPatients();
@@ -33,6 +34,15 @@ const Patient = () => {
             fetchPatients();
         })
     }
+    const isValidPhoneNumber = (phoneNumber) => {
+        const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
+        return phoneRegex.test(phoneNumber);
+      };
+    
+      const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      };
     const handleDelete = (id) => {
         Swal.fire({
             title: 'Do you want to Delete?',
@@ -76,8 +86,38 @@ const Patient = () => {
         setEdit(false);
         clearFields();
     }
+    const handleView = (patient) => {
+        Swal.fire({
+          icon: 'info',
+          title: 'Patient Details',
+          html: `
+            <b>Patient ID:</b> ${patient.id}<br/>
+            <b>Name:</b> ${patient.name}<br/>
+            <b>Age:</b> ${patient.age}<br/>
+            <b>Gender:</b> ${patient.gender}<br/>
+            <b>Address:</b> ${patient.address}<br/>
+            <b>Phone:</b> ${patient.phone}<br/>
+            <b>Email:</b> ${patient.email}<br/>
+            <b>Medical History:</b> ${patient.medicalHistory}<br/>
+            <b>Treatment Plan:</b> ${patient.treatmentPlan}<br/>
+          `,
+          confirmButtonText: 'Close',
+          showConfirmButton: true,
+        });
+      };
+      
     const handleEditSubmit = async (e) => {
         e.preventDefault();
+
+    // Validate phone number and email
+    if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid phone number or email',
+          text: 'Please enter a valid phone number and email address',
+        });
+        return;
+      }
         const updatedPatient = {
             id: patientId,
             name: name,
@@ -106,6 +146,15 @@ const Patient = () => {
     }
     const handleAddSubmit = async (e) => {
         e.preventDefault();
+        // Validate phone number and email
+    if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid phone number or email',
+          text: 'Please enter a valid phone number and email address',
+        });
+        return;
+      }
         const patient = {
             name: name,
             age: age,
@@ -182,9 +231,9 @@ const Patient = () => {
                             <th>NAME</th>
                             <th>AGE</th>
                             <th>GENDER</th>
-                            <th>ADDRESS</th>
+                            {/* <th>ADDRESS</th> */}
                             <th>PHONE</th>
-                            <th>EMAIL</th>
+                            {/* <th>EMAIL</th> */}
                             {/* <th>MEDICAL HISTORY</th> */}
                             {/* <th>TREATMENT PLAN</th> */}
                             <th>Actions</th>
@@ -203,15 +252,15 @@ const Patient = () => {
                                             <td><span>{patient.name}</span></td>
                                             <td><span>{patient.age}</span></td>
                                             <td><span>{patient.gender}</span></td>
-                                            <td><span>{patient.address}</span></td>
+                                            {/* <td><span>{patient.address}</span></td> */}
                                             <td><span>{patient.phone}</span></td>
-                                            <td><span>{patient.email}</span></td>
+                                            {/* <td><span>{patient.email}</span></td> */}
                                             {/* <td><span>{patient.medicalHistory}</span></td> */}
                                             {/* <td><span>{patient.treatmentPlan}</span></td> */}
                                             <td>
                                                 <button onClick={() => handleEdit(patient)} className='edit-save-btn'>Edit</button>
                                                 <button onClick={() => handleDelete(patient.id)} className='edit-back-btn'>Delete</button>
-                                                <button className='view-btn'>View</button>
+                                                <button className='view-btn' onClick={() => handleView(patient)}>View</button>
                                             </td>
                                         </tr>
                                     })}

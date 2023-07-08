@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import '../styles.css';
-import NotificationIcon from '../../assets/icons/notification.svg';
-import SettingsIcon from '../../assets/icons/settings.svg';
 import axios from 'axios';
 import '../MedicalRecords/MedicalRecord.css'
 import Swal from 'sweetalert2';
@@ -51,6 +49,15 @@ const Staff = () => {
             }
         })
     }
+    const isValidPhoneNumber = (phoneNumber) => {
+        const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
+        return phoneRegex.test(phoneNumber);
+      };
+    
+      const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      };
     const handleEdit = (staff) => {
         setEdit(true);
         setName(staff.name)
@@ -76,8 +83,34 @@ const Staff = () => {
         setEdit(false);
         clearFields();
     }
+    const handleView = (staff) => {
+        Swal.fire({
+          title: 'Staff Details',
+          html: `
+            <p><strong>Name:</strong> ${staff.name}</p>
+            <p><strong>Age:</strong> ${staff.age}</p>
+            <p><strong>Gender:</strong> ${staff.gender}</p>
+            <p><strong>Address:</strong> ${staff.address}</p>
+            <p><strong>Phone:</strong> ${staff.phone}</p>
+            <p><strong>Email:</strong> ${staff.email}</p>
+            <p><strong>Job Title:</strong> ${staff.jobTitle}</p>
+            <p><strong>Salary:</strong> ${staff.salary}</p>
+          `,
+          confirmButtonText: 'Close',
+          showConfirmButton: true,
+        });
+      };
     const handleEditSubmit = async (e) => {
         e.preventDefault();
+        // Validate phone number and email
+    if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid phone number or email',
+          text: 'Please enter a valid phone number and email address',
+        });
+        return;
+      }
         const updatedstaff = {
             id: staffId,
             name: name,
@@ -106,6 +139,15 @@ const Staff = () => {
     }
     const handleAddSubmit = async (e) => {
         e.preventDefault();
+        // Validate phone number and email
+    if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid phone number or email',
+          text: 'Please enter a valid phone number and email address',
+        });
+        return;
+      }
         const staff = {
             name: name,
             age: age,
@@ -182,11 +224,11 @@ const Staff = () => {
                             <th>NAME</th>
                             <th>AGE</th>
                             <th>GENDER</th>
-                            <th>ADDRESS</th>
+                            {/* <th>ADDRESS</th> */}
                             <th>PHONE</th>
-                            <th>EMAIL</th>
+                            {/* <th>EMAIL</th> */}
                             <th>JOB TITLE</th>
-                            <th>SALARY</th>
+                            {/* <th>SALARY</th> */}
                             <th>Actions</th>
                         </thead>
                         {staff.length !== 0 &&
@@ -203,15 +245,16 @@ const Staff = () => {
                                             <td><span>{staff.name}</span></td>
                                             <td><span>{staff.age}</span></td>
                                             <td><span>{staff.gender}</span></td>
-                                            <td><span>{staff.address}</span></td>
+                                            {/* <td><span>{staff.address}</span></td> */}
                                             <td><span>{staff.phone}</span></td>
-                                            <td><span>{staff.email}</span></td>
+                                            {/* <td><span>{staff.email}</span></td> */}
                                             <td><span>{staff.jobTitle}</span></td>
-                                            <td><span>{staff.salary}</span></td>
+                                            {/* <td><span>{staff.salary}</span></td> */}
                                             {/* <td><span>{staff.treatmentPlan}</span></td> */}
                                             <td>
                                                 <button onClick={() => handleEdit(staff)} className='edit-save-btn'>Edit</button>
                                                 <button onClick={() => handleDelete(staff.id)} className='edit-back-btn'>Delete</button>
+                                                <button className='view-btn' onClick={() => handleView(staff)}>View</button>
                                             </td>
                                         </tr>
                                     })}

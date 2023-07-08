@@ -45,8 +45,8 @@ function SideBar ({ menu , signOut, user }) {
                         ))}
                     </div>
 
-                    <div className='sidebar-footer' >
-                        <span className='sidebar-item-label' onClick={signOut}>Logout</span>
+                    <div className='sidebar-footer' onClick={signOut}>
+                        <span className='sidebar-item-label'>Logout</span>
                         <img 
                             src={LogoutIcon}
                             alt='icon-logout'

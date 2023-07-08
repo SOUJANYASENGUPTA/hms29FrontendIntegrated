@@ -16,11 +16,13 @@ const Pharmacy = () => {
     const [prescriptionNumber, setPrescriptionNumber] = useState('')
     const [patientId, setPatientId] = useState('')
     const [searchQuery, setSearchQuery] = useState('');
+    const [patientExists, setPatientExists] = useState(false);
     const fetchpharmacies = async () => {
         await axios.get('http://localhost:8080/pharmacy').then((response) => {
             setPharmacy(response.data);
             console.log(response.data)
         })
+        
     }
     useEffect(() => {
         fetchpharmacies();
@@ -134,7 +136,7 @@ const Pharmacy = () => {
                 <div className='dashbord-header-container'>
                     {!edit && !add && <button className='dashbord-header-btn' onClick={handleNewRecord}>New pharmacy</button>}
                     {(edit || add) && <button className='dashbord-header-btn' onClick={handleBack}>Back to pharmacy</button>}
-                    <div className='dashbord-header-right'>
+                    {/* <div className='dashbord-header-right'>
                         <img
                             src={NotificationIcon}
                             alt='notificationIcon'
@@ -146,7 +148,7 @@ const Pharmacy = () => {
                         <img
                             className='dashbord-header-avatar'
                             src='https://reqres.in/img/faces/9-image.jpg' alt="dashImage" />
-                    </div>
+                    </div> */}
                 </div>
                 {!edit && !add && <div className='dashboard-content-container'>
                     <div className='dashboard-content-header'>
@@ -229,7 +231,7 @@ const Pharmacy = () => {
                                 <br />
                                 <label htmlFor="" className='form_label'>Patient Id</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
+                                <input type="text" name="" id="" className='medical-record-input' value={patientId} required />
                                 <br />
                                 <button type="submit" className='save-btn'>Save</button>
                                 <button className='back-btn' onClick={handleBack}>Cancel</button>
