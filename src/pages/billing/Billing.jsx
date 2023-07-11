@@ -14,7 +14,7 @@ const Payment = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const fetchPayments = async () => {
-    await axios.get('http://localhost:8080/payments').then((response) => {
+    await axios.get('http://localhost:8080/billing').then((response) => {
       setPayments(response.data);
       console.log(response.data);
     });
@@ -25,7 +25,7 @@ const Payment = () => {
   }, []);
 
   const submitDelete = async (id) => {
-    await axios.delete(`http://localhost:8080/payments/${id}`).then(() => {
+    await axios.delete(`http://localhost:8080/billing/${id}`).then(() => {
       console.log('Payment deleted');
       fetchPayments();
     });
@@ -82,7 +82,7 @@ const Payment = () => {
       treatment_description: treatmentDescription,
       patient_id: patientId,
     };
-    await axios.put('http://localhost:8080/payments', updatedPayment).then(() => {
+    await axios.put('http://localhost:8080/billing', updatedPayment).then(() => {
       Swal.fire({
         icon: 'success',
         title: 'Payment Updated Successfully',
@@ -105,7 +105,7 @@ const Payment = () => {
       treatment_description: treatmentDescription,
       patient_id: patientId,
     };
-    await axios.post('http://localhost:8080/payments', payment).then((response) => {
+    await axios.post('http://localhost:8080/billing', payment).then((response) => {
       console.log(response.data);
       Swal.fire({
         icon: 'success',
