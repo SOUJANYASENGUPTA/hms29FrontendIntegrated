@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
+import '../MedicalRecords/MedicalRecord.css';
+import '../styles.css';
 const Appointment = () => {
   const [appointments, setAppointments] = useState([]);
   const [edit, setEdit] = useState(false);
