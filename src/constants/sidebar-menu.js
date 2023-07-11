@@ -46,6 +46,18 @@ const sidebar_menu = [
         path: '/billing',
         title: 'Billing',
     } */
+    {
+        id: 6,
+        icon: ShippingIcon,
+        path: '/appointment',
+        title: 'Appointment',
+    },
+    {
+        id: 7,
+        icon: ShippingIcon,
+        path: '/billing',
+        title: 'Billing',
+    }
 ]
 
 export default sidebar_menu;

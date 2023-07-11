@@ -12,6 +12,8 @@ import MedicalRecords from './pages/MedicalRecords/MedicalRecords'
 import Staff from './pages/Staff/Staff';
 import Pharmacy from './pages/pharmacy/Pharmacy';
 import Inventory from './pages/inventory/Inventory';
+import Appointment from './pages/appoitment/Appointment';
+import Payment from './pages/billing/Billing';
 function App () {
   const [viewOtpForm, setViewOtpForm] = useState(false);
   const [ver,setVer] = useState(false);
@@ -180,6 +182,28 @@ auth.onAuthStateChanged((user) => {
             </>
           }
         /> */}
+        <Route
+          exact path="/appointment"
+          element={
+            <div className='dashboard-container'>
+            <SideBar menu={sidebar_menu} signOut={signOut} user={user} />
+            <div className='dashboard-body'>
+              <Appointment/>
+            </div>
+            </div>
+          }
+        />
+        <Route
+          exact path="/billing"
+          element={
+            <div className='dashboard-container'>
+            <SideBar menu={sidebar_menu} signOut={signOut} user={user} />
+            <div className='dashboard-body'>
+              <Payment/>
+            </div>
+            </div>
+          }
+        />
       </Routes>
   </Router>
   )
