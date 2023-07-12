@@ -173,7 +173,6 @@ const Appointment = () => {
             </div>
             <table>
               <thead>
-                <tr>
                   <th>ID</th>
                   <th>Patient ID</th>
                   <th>Doctor ID</th>
@@ -182,7 +181,6 @@ const Appointment = () => {
                   <th>Duration</th>
                   <th>Status</th>
                   <th>Actions</th>
-                </tr>
               </thead>
               {appointments.length !== 0 && (
                 <tbody>
@@ -196,13 +194,13 @@ const Appointment = () => {
                     .map((appointment) => {
                       return (
                         <tr key={appointment.id}>
-                          <td>{appointment.id}</td>
-                          <td>{appointment.patientId}</td>
-                          <td>{appointment.doctorId}</td>
-                          <td>{appointment.date}</td>
-                          <td>{appointment.time}</td>
-                          <td>{appointment.duration}</td>
-                          <td>{appointment.status}</td>
+                          <td><span>{appointment.id}</span></td>
+                          <td><span>{appointment.patientId}</span></td>
+                          <td><span>{appointment.doctorId}</span></td>
+                          <td><span>{appointment.date}</span></td>
+                          <td><span>{appointment.time}</span></td>
+                          <td><span>{appointment.duration}</span></td>
+                          <td><span>{appointment.status}</span></td>
                           <td>
                             <button onClick={() => handleEdit(appointment)} className="edit-save-btn">
                               Edit
@@ -225,20 +223,27 @@ const Appointment = () => {
               <h2>Edit Appointment Details</h2>
             </div>
             <form onSubmit={handleEditSubmit}>
-              <label>Appointment ID:</label>
-              <input type="number" value={id} onChange={(e) => setId(e.target.value)} readOnly />
-              <label>Patient ID:</label>
-              <input type="number" value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
-              <label>Doctor ID:</label>
-              <input type="number" value={doctorId} onChange={(e) => setDoctorId(e.target.value)} required />
-              <label>Date:</label>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-              <label>Time:</label>
-              <input type="text" value={time} onChange={(e) => setTime(e.target.value)} required />
-              <label>Duration:</label>
-              <input type="text" value={duration} onChange={(e) => setDuration(e.target.value)} required />
-              <label>Status:</label>
-              <input type="text" value={status} onChange={(e) => setStatus(e.target.value)} required />
+              <label htmlFor="" className='form_label'>Appointment ID:</label><br />
+              <input className='medical-record-input' type="number" value={id} onChange={(e) => setId(e.target.value)} readOnly />
+              <br />
+              <label htmlFor="" className='form_label'>Patient ID:</label><br />
+              <input className='medical-record-input' type="number" value={patientId} required />
+              <br />
+              <label htmlFor="" className='form_label'>Doctor ID:</label><br />
+              <input className='medical-record-input' type="number" value={doctorId} required />
+              <br />
+              <label htmlFor="" className='form_label'>Date:</label><br />
+              <input className='medical-record-input' type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              <br />
+              <label htmlFor="" className='form_label'>Time:</label><br />
+              <input className='medical-record-input' type="text" value={time} onChange={(e) => setTime(e.target.value)} required />
+              <br />
+              <label htmlFor="" className='form_label'>Duration:</label><br />
+              <input className='medical-record-input' type="text" value={duration} onChange={(e) => setDuration(e.target.value)} required />
+              <br />
+              <label htmlFor="" className='form_label'>Status:</label><br />
+              <input className='medical-record-input' type="text" value={status} onChange={(e) => setStatus(e.target.value)} required />
+              <br />
               <button type="submit" className="save-btn">Save</button>
               <button className="back-btn" onClick={handleBack}>Cancel</button>
             </form>
@@ -250,18 +255,24 @@ const Appointment = () => {
               <h2>Add Appointment</h2>
             </div>
             <form onSubmit={handleAddSubmit}>
-              <label>Patient ID:</label>
-              <input type="text" value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
-              <label>Doctor ID:</label>
-              <input type="text" value={doctorId} onChange={(e) => setDoctorId(e.target.value)} required />
-              <label>Date:</label>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-              <label>Time:</label>
-              <input type="text" value={time} onChange={(e) => setTime(e.target.value)} required />
-              <label>Duration:</label>
-              <input type="text" value={duration} onChange={(e) => setDuration(e.target.value)} required />
-              <label>Status:</label>
-              <input type="text" value={status} onChange={(e) => setStatus(e.target.value)} required />
+              <label htmlFor="" className='form_label'>Patient ID:</label><br />
+              <input className='medical-record-input' type="text" value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
+              <br />
+              <label htmlFor="" className='form_label'>Doctor ID:</label><br />
+              <input className='medical-record-input' type="text" value={doctorId} onChange={(e) => setDoctorId(e.target.value)} required />
+              <br />
+              <label htmlFor="" className='form_label'>Date:</label><br />
+              <input className='medical-record-input' type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              <br />
+              <label htmlFor="" className='form_label'>Time:</label><br />
+              <input className='medical-record-input' type="text" value={time} onChange={(e) => setTime(e.target.value)} required />
+              <br />
+              <label htmlFor="" className='form_label'>Duration:</label><br />
+              <input className='medical-record-input' type="text" value={duration} onChange={(e) => setDuration(e.target.value)} required />
+              <br />
+              <label htmlFor="" className='form_label'>Status:</label><br />
+              <input className='medical-record-input' type="text" value={status} onChange={(e) => setStatus(e.target.value)} required />
+              <br />
               <button type="submit" className="save-btn">Save</button>
               <button className="back-btn" onClick={handleBack}>Cancel</button>
             </form>

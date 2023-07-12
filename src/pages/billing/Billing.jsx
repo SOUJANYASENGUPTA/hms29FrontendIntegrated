@@ -163,25 +163,25 @@ const Payment = () => {
             </div>
             <table>
               <thead>
-                <tr>
+               
                   <th>ID</th>
                   <th>Date</th>
                   <th>Amount</th>
                   <th>Treatment Description</th>
                   <th>Patient ID</th>
                   <th>Actions</th>
-                </tr>
+                
               </thead>
               {payments.length !== 0 && (
                 <tbody>
                   {payments.map((payment) => {
                     return (
                       <tr key={payment.id}>
-                        <td>{payment.id}</td>
-                        <td>{payment.date}</td>
-                        <td>{payment.amount}</td>
-                        <td>{payment.treatment_description}</td>
-                        <td>{payment.patient_id}</td>
+                        <td><span>{payment.id}</span></td>
+                        <td><span>{payment.date}</span></td>
+                        <td><span>{payment.amount}</span></td>
+                        <td><span>{payment.treatment_description}</span></td>
+                        <td><span>{payment.patient_id}</span></td>
                         <td>
                           <button onClick={() => handleEdit(payment)} className="edit-save-btn">
                             Edit
@@ -204,17 +204,17 @@ const Payment = () => {
               <h2>Edit Payment Details</h2>
             </div>
             <form onSubmit={handleEditSubmit}>
-              <label>Payment ID:</label>
-              <input type="text" value={id} onChange={(e) => setId(e.target.value)} readOnly />
-              <label>Date:</label>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-              <label>Amount:</label>
-              <input type="text" value={amount} onChange={(e) => setAmount(e.target.value)} required />
-              <label>Treatment Description:</label>
-              <input type="text" value={treatmentDescription} onChange={(e) => setTreatmentDescription(e.target.value)} required />
-              <label>Patient ID:</label>
-              <input type="text" value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
-              <button type="submit" className="save-btn">Save</button>
+              <label htmlFor="" className='form_label'>Payment ID:</label><br />
+              <input type="text" value={id} className='medical-record-input' onChange={(e) => setId(e.target.value)} readOnly />
+              <br /><label htmlFor="" className='form_label'>Date:</label><br />
+              <input type="date" value={date} className='medical-record-input' onChange={(e) => setDate(e.target.value)} required />
+              <br /><label htmlFor="" className='form_label'>Amount:</label><br />
+              <input type="text" value={amount} className='medical-record-input' onChange={(e) => setAmount(e.target.value)} required />
+              <br /><label htmlFor="" className='form_label'>Treatment Description:</label><br />
+              <input type="text" value={treatmentDescription} className='medical-record-input' onChange={(e) => setTreatmentDescription(e.target.value)} required />
+              <br /><label htmlFor="" className='form_label'>Patient ID:</label><br />
+              <input type="text" value={patientId} className='medical-record-input' required />
+              <br /><button type="submit" className="save-btn">Save</button>
               <button className="back-btn" onClick={handleBack}>Cancel</button>
             </form>
           </div>
@@ -225,15 +225,15 @@ const Payment = () => {
               <h2>Add Payment</h2>
             </div>
             <form onSubmit={handleAddSubmit}>
-              <label>Date:</label>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-              <label>Amount:</label>
-              <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
-              <label>Treatment Description:</label>
-              <input type="text" value={treatmentDescription} onChange={(e) => setTreatmentDescription(e.target.value)} required />
-              <label>Patient ID:</label>
-              <input type="number" value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
-              <button type="submit" className="save-btn">Save</button>
+            <label htmlFor="" className='form_label'>Date:</label><br />
+              <input type="date" value={date} className='medical-record-input'onChange={(e) => setDate(e.target.value)} required />
+              <br /><label htmlFor="" className='form_label'>Amount:</label><br />
+              <input type="number" className='medical-record-input'value={amount} onChange={(e) => setAmount(e.target.value)} required />
+              <br /><label htmlFor="" className='form_label'>Treatment Description:</label><br />
+              <input type="text" className='medical-record-input'value={treatmentDescription} onChange={(e) => setTreatmentDescription(e.target.value)} required />
+              <br /><label htmlFor="" className='form_label'>Patient ID:</label><br />
+              <input type="number" className='medical-record-input'value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
+              <br /><button type="submit" className="save-btn">Save</button>
               <button className="back-btn" onClick={handleBack}>Cancel</button>
             </form>
           </div>
