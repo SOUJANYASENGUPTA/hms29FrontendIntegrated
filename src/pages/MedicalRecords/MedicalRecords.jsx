@@ -113,12 +113,15 @@ const MedicalRecord = () => {
             setEdit(false);
             clearFields();
             fetchRecords();
-        }).catch((err) => {
-            console.log(err);
+        }).catch(() => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Invalid Patient Id or Doctor Id',
+            })
         })
     }
     const handleAddSubmit = async (e) => {
-        console.log(patientId)
         e.preventDefault();
         var formattedDate = new Date(date).toISOString().split('T')[0];
         const record = {
@@ -141,6 +144,12 @@ const MedicalRecord = () => {
             fetchRecords();
             setAdd(false);
             clearFields();
+        }).catch(() => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Invalid Patient Id or Doctor Id',
+            })
         })
     }
     const clearFields = () => {
@@ -232,6 +241,10 @@ const MedicalRecord = () => {
                         </div>
                         <div>
                             <form onSubmit={handleEditSubmit}>
+                                <label htmlFor="">Record Id</label>
+                                <br />
+                                <input type="number" name="" id="" className='form-inputs' value={recordId} disabled />
+                                <br />
                                 <label htmlFor="">Patient Id</label>
                                 <br />
                                 <input type="number" name="" id="" className='form-inputs' value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
@@ -297,6 +310,7 @@ const MedicalRecord = () => {
                                 <br />
                                 <button type="submit" className='save-btn'>Save</button>
                                 <button className='back-btn' onClick={handleBack}>Cancel</button>
+                                {!checkValid && <span style={{ marginLeft: "20rem", color: "red" }}>{error}</span>}
                             </form>
                         </div>
                     </div>
