@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState , useCallback } from 'react'
 import '../styles.css';
-import NotificationIcon from '../../assets/icons/notification.svg';
-import SettingsIcon from '../../assets/icons/settings.svg';
+// import NotificationIcon from '../../assets/icons/notification.svg';
+// import SettingsIcon from '../../assets/icons/settings.svg';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../components/DashboardHeader/styles.css'
 import DashboardHeader from '../../components/DashboardHeader';
+import { sliceData, calculateRange } from '../../utils/table-pagination';
 const MedicalRecord = () => {
     const [records, setRecords] = useState([]);
     const [edit, setEdit] = useState(false);
@@ -20,14 +21,26 @@ const MedicalRecord = () => {
     const [error, setError] = useState("")
     const [checkValid, setCheckValid] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const fetchRecords = async () => {
+    const [page, setPage] = useState(1);
+    const [pagination, setPagination] = useState([]);
+    const [pagedRecords, setPagedRecords] = useState([]);
+    const __handleChangePage = (new_page) => {
+        setPage(new_page);
+        setPagedRecords(sliceData(records, new_page, 7));
+    }
+    const fetchRecords = useCallback(async () => {
         await axios.get('http://localhost:8080/medical-records').then((response) => {
             setRecords(response.data);
-        })
-    }
+            if (response.data.length !== 0) {
+                setPagination(calculateRange(response.data, 7));
+                setPagedRecords(sliceData(response.data, page, 7));
+            }
+        });
+    }, [page]);
+
     useEffect(() => {
         fetchRecords();
-    }, [])
+    }, [fetchRecords]);
     const SubmitDelete = async (id) => {
         await axios.delete(`http://localhost:8080/medical-records/${id}`).then(() => {
             console.log("in delete")
@@ -152,6 +165,23 @@ const MedicalRecord = () => {
             })
         })
     }
+    const handleSearch = (e) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+        console.log(page);
+        if (query !== '') {
+          const searchResults = records.filter((record) =>
+            record.id.toString().includes(query)
+          );
+          console.log(searchResults)
+          setPagination(calculateRange(searchResults, 7));
+          setPagedRecords(searchResults);
+        } else {
+          setPagination(calculateRange(records, 7))
+          setPagedRecords(sliceData(records, page, 7));
+        }
+      };
+      
     const clearFields = () => {
         setRecordId('')
         setDiagnosis('')
@@ -190,7 +220,7 @@ const MedicalRecord = () => {
                                 placeholder='Search...'
                                 className='dashboard-content-input'
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e) => handleSearch(e)}
                                 min="1"
                                 inputMode="numeric"
                             />
@@ -200,39 +230,50 @@ const MedicalRecord = () => {
                         <thead>
                             <th>ID</th>
                             <th>DATE</th>
-                            {/* <th>DIAGNOSIS</th> */}
-                            <th>PRESCRIPTION</th>
+                            <th>DIAGNOSIS</th>
+                            {/* <th>PRESCRIPTION</th> */}
                             {/* <th>NOTES</th> */}
                             <th>PATIENT ID</th>
                             <th>DOCTOR ID</th>
                             <th>ACTIONS</th>
                         </thead>
-                        {records.length !== 0 ?
+                        {pagedRecords.length !== 0 ?
                             <tbody>
-                                {records
-                                    .filter(record => {
-                                        return (
-                                            record.id.toString().includes(searchQuery)
-                                        );
-                                    }).map((record) => {
-                                        return <tr key={record.id}>
-                                            <td><span>{record.id}</span></td>
-                                            <td><span>{record.date}</span></td>
-                                            {/* <td><span>{record.diagnosis.length < 14 ? record.diagnosis : record.diagnosis.substring(0, 14) + "..."}</span></td> */}
-                                            <td><span>{record.prescription.length < 14 ? record.prescription : record.prescription.substring(0, 14) + "..."}</span></td>
-                                            {/* <td><span>{record.notes.length < 14 ? record.notes : record.notes.substring(0, 14) + "..."}</span></td> */}
-                                            <td><span>{record.patient_id}</span></td>
-                                            <td><span>{record.doctor_id}</span></td>
-                                            <td>
-                                                <button onClick={() => handleEdit(record)} className='edit-save-btn'>Edit</button>
-                                                <button onClick={() => handleDelete(record.id)} className='edit-back-btn'>Delete</button>
-                                                <button className='view-btn' onClick={() => handleView(record)}>View</button>
-                                            </td>
-                                        </tr>
-                                    })}
-                            </tbody> : <>Not found</>
+                                {pagedRecords.map((record) => {
+                                    return <tr key={record.id}>
+                                        <td><span>{record.id}</span></td>
+                                        <td><span>{record.date}</span></td>
+                                        <td><span>{record.diagnosis.length < 14 ? record.diagnosis : record.diagnosis.substring(0, 14) + "..."}</span></td>
+                                        {/* <td><span>{record.prescription.length < 14 ? record.prescription : record.prescription.substring(0, 14) + "..."}</span></td> */}
+                                        {/* <td><span>{record.notes.length < 14 ? record.notes : record.notes.substring(0, 14) + "..."}</span></td> */}
+                                        <td><span>{record.patient_id}</span></td>
+                                        <td><span>{record.doctor_id}</span></td>
+                                        <td>
+                                            <button onClick={() => handleEdit(record)} className='edit-save-btn'>Edit</button>
+                                            <button onClick={() => handleDelete(record.id)} className='edit-back-btn'>Delete</button>
+                                            <button className='view-btn' onClick={() => handleView(record)}>View</button>
+                                        </td>
+                                    </tr>
+                                })}
+                            </tbody> : <></>
                         }
                     </table>
+                    {pagedRecords.length !== 0 ?
+                        <div className='dashboard-content-footer'>
+                            {pagination.map((item, index) => (
+                                <span
+                                    key={index}
+                                    className={item === page ? 'active-pagination' : 'pagination'}
+                                    onClick={() => __handleChangePage(item)}>
+                                    {item}
+                                </span>
+                            ))}
+                        </div>
+                        :
+                        <div className='dashboard-content-footer'>
+                            <span className='empty-table'>No data</span>
+                        </div>
+                    }
                 </div>}
                 {edit &&
                     <div className='form-elements'>
