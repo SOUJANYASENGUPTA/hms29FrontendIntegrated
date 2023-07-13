@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import '../styles.css';
 import axios from 'axios';
-import '../MedicalRecords/MedicalRecord.css'
 import Swal from 'sweetalert2';
+import DashboardHeader from '../../components/DashboardHeader';
 const Staff = () => {
     const [staff, setStaff] = useState([]);
     const [edit, setEdit] = useState(false);
@@ -16,7 +16,7 @@ const Staff = () => {
     const [email, setEmail] = useState('')
     const [jobTitle, setJobTitle] = useState('')
     const [salary, setSalary] = useState('');
-    const[searchQuery,setSearchQuery]=useState('');
+    const [searchQuery, setSearchQuery] = useState('');
     const fetchstaffs = async () => {
         await axios.get('http://localhost:8080/staff').then((response) => {
             setStaff(response.data);
@@ -71,7 +71,7 @@ const Staff = () => {
         setSalary(staff.salary)
 
     }
-    const handleNewRecord = (e) => {
+    const handleNewStaff = (e) => {
         e.preventDefault();
         setAdd(true);
         setEdit(false);
@@ -85,8 +85,8 @@ const Staff = () => {
     }
     const handleView = (staff) => {
         Swal.fire({
-          title: 'Staff Details',
-          html: `
+            title: 'Staff Details',
+            html: `
             <p><strong>Name:</strong> ${staff.name}</p>
             <p><strong>Age:</strong> ${staff.age}</p>
             <p><strong>Gender:</strong> ${staff.gender}</p>
@@ -96,21 +96,21 @@ const Staff = () => {
             <p><strong>Job Title:</strong> ${staff.jobTitle}</p>
             <p><strong>Salary:</strong> ${staff.salary}</p>
           `,
-          confirmButtonText: 'Close',
-          showConfirmButton: true,
+            confirmButtonText: 'Close',
+            showConfirmButton: true,
         });
-      };
+    };
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         // Validate phone number and email
-   /*  if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Invalid phone number or email',
-          text: 'Please enter a valid phone number and email address',
-        });
-        return;
-      } */
+        /*  if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
+             Swal.fire({
+               icon: 'error',
+               title: 'Invalid phone number or email',
+               text: 'Please enter a valid phone number and email address',
+             });
+             return;
+           } */
         const updatedstaff = {
             id: staffId,
             name: name,
@@ -140,14 +140,14 @@ const Staff = () => {
     const handleAddSubmit = async (e) => {
         e.preventDefault();
         // Validate phone number and email
-   /*  if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Invalid phone number or email',
-          text: 'Please enter a valid phone number and email address',
-        });
-        return;
-      } */
+        /*  if (!isValidPhoneNumber(phone) || !isValidEmail(email)) {
+             Swal.fire({
+               icon: 'error',
+               title: 'Invalid phone number or email',
+               text: 'Please enter a valid phone number and email address',
+             });
+             return;
+           } */
         const staff = {
             name: name,
             age: age,
@@ -187,8 +187,8 @@ const Staff = () => {
         <div>
             <div className='dashboard-content'>
                 <div className='dashbord-header-container'>
-                    {!edit && !add && <button className='dashbord-header-btn' onClick={handleNewRecord}>New staff</button>}
-                    {(edit || add) && <button className='dashbord-header-btn' onClick={handleBack}>Back to staffs</button>}
+                    {!edit && !add && <DashboardHeader btnText="New Staff" onClick={handleNewStaff} />}
+                    {(edit || add) && <DashboardHeader btnText="Back to Staff" onClick={handleBack} />}
                     {/* <div className='dashbord-header-right'>
                         <img
                             src={NotificationIcon}
@@ -263,7 +263,7 @@ const Staff = () => {
                     </table>
                 </div>}
                 {edit &&
-                    <div className='medical-record-form'>
+                    <div className='form-elements'>
                         <div className='dashboard-content-header'>
                             <h2>Edit staff Details</h2>
                         </div>
@@ -271,39 +271,39 @@ const Staff = () => {
                             <form onSubmit={handleEditSubmit}>
                                 <label htmlFor="">staff Id</label>
                                 <br />
-                                <input type="number" name="" id="" className='medical-record-input' value={staffId} onChange={(e) => setstaffId(e.target.value)} readOnly />
+                                <input type="number" name="" id="" className='form-inputs' value={staffId} onChange={(e) => setstaffId(e.target.value)} readOnly />
                                 <br />
                                 <label htmlFor="" className='form_label'>Name</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={name} onChange={(e) => setName(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={name} onChange={(e) => setName(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Age</label>
                                 <br />
-                                <input type="number" name="" id="" className='medical-record-input' value={age} onChange={(e) => setAge(e.target.value)} required />
+                                <input type="number" name="" id="" className='form-inputs' value={age} onChange={(e) => setAge(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Gender</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={gender} onChange={(e) => setGender(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={gender} onChange={(e) => setGender(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Address</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={address} onChange={(e) => setAddress(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={address} onChange={(e) => setAddress(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Phone</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={phone} onChange={(e) => setPhone(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Email</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={email} onChange={(e) => setEmail(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={email} onChange={(e) => setEmail(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Job Title</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Salary</label>
                                 <br />
-                                <input type="number" name="" id="" className='medical-record-input' value={salary} onChange={(e) => setSalary(e.target.value)} required />
+                                <input type="number" name="" id="" className='form-inputs' value={salary} onChange={(e) => setSalary(e.target.value)} required />
                                 <br />
                                 <button type="submit" className='save-btn'>Save</button>
                                 <button className='back-btn' onClick={handleBack}>Cancel</button>
@@ -313,7 +313,7 @@ const Staff = () => {
                     </div>
                 }
                 {add &&
-                    <div className='medical-record-form'>
+                    <div className='form-elements'>
                         <div className='dashboard-content-header'>
                             <h2>Add Medical Record</h2>
                         </div>
@@ -321,35 +321,35 @@ const Staff = () => {
                             <form onSubmit={handleAddSubmit}>
                                 <label htmlFor="" className='form_label'>Name</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={name} onChange={(e) => setName(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={name} onChange={(e) => setName(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Age</label>
                                 <br />
-                                <input type="number" name="" id="" className='medical-record-input' value={age} onChange={(e) => setAge(e.target.value)} required />
+                                <input type="number" name="" id="" className='form-inputs' value={age} onChange={(e) => setAge(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Gender</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={gender} onChange={(e) => setGender(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={gender} onChange={(e) => setGender(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Address</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={address} onChange={(e) => setAddress(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={address} onChange={(e) => setAddress(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Phone</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={phone} onChange={(e) => setPhone(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Email</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={email} onChange={(e) => setEmail(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={email} onChange={(e) => setEmail(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Job Title</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Salary</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={salary} onChange={(e) => setSalary(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={salary} onChange={(e) => setSalary(e.target.value)} required />
                                 <br />
                                 <button type="submit" className='save-btn'>Save</button>
                                 <button className='back-btn' onClick={handleBack}>Cancel</button>

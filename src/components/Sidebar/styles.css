@@ -2,15 +2,16 @@
     top: 0;
     left: 0;
     width: 250px;
-    height: 120vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     position: sticky;
     background-image: linear-gradient(#015C92, #2D83B5, #89CCF6);
 }
 .sidebar-logo-container {
-    display: 'flex';
-    align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    margin-bottom: 1.5rem;
 }
 .sidebar-logo-container img {
     width: 70%;
@@ -58,7 +59,8 @@
 .sidebar-item-label {
     font-size: small;
     font-weight: 600;
-    margin-left: 15px;
+    margin-left: 12px;
+    margin-bottom: 4px;
 }
 /* Footer */
 .sidebar-footer {

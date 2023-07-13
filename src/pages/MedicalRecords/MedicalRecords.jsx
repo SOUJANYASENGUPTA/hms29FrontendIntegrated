@@ -3,10 +3,9 @@ import '../styles.css';
 import NotificationIcon from '../../assets/icons/notification.svg';
 import SettingsIcon from '../../assets/icons/settings.svg';
 import axios from 'axios';
-import './MedicalRecord.css'
 import Swal from 'sweetalert2';
 import '../../components/DashboardHeader/styles.css'
-
+import DashboardHeader from '../../components/DashboardHeader';
 const MedicalRecord = () => {
     const [records, setRecords] = useState([]);
     const [edit, setEdit] = useState(false);
@@ -77,8 +76,8 @@ const MedicalRecord = () => {
     }
     const handleView = (record) => {
         Swal.fire({
-          title: 'Medical Record Details',
-          html: `
+            title: 'Medical Record Details',
+            html: `
             <p><strong>Patient ID:</strong> ${record.patient_id}</p>
             <p><strong>Doctor ID:</strong> ${record.doctor_id}</p>
             <p><strong>Date:</strong> ${record.date}</p>
@@ -86,10 +85,10 @@ const MedicalRecord = () => {
             <p><strong>Prescription:</strong> ${record.prescription}</p>
             <p><strong>Notes:</strong> ${record.notes}</p>
           `,
-          confirmButtonText: 'Close',
-          showConfirmButton: true,
+            confirmButtonText: 'Close',
+            showConfirmButton: true,
         });
-      };
+    };
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         const formattedDate = new Date(date).toISOString().split('T')[0];
@@ -157,8 +156,8 @@ const MedicalRecord = () => {
         <div>
             <div className='dashboard-content'>
                 <div className='dashbord-header-container'>
-                    {!edit && !add && <button className='dashbord-header-btn' onClick={handleNewRecord}>New Record</button>}
-                    {(edit || add) && <button className='dashbord-header-btn' onClick={handleBack}>Back to Records</button>}
+                    {!edit && !add && <DashboardHeader btnText="New Record" onClick={handleNewRecord} />}
+                    {(edit || add) && <DashboardHeader btnText="Back to Records" onClick={handleBack} />}
                     {/* <div className='dashbord-header-right'>
                         <img
                             src={NotificationIcon}
@@ -222,12 +221,12 @@ const MedicalRecord = () => {
                                             </td>
                                         </tr>
                                     })}
-                            </tbody>:<>Not found</>
+                            </tbody> : <>Not found</>
                         }
                     </table>
                 </div>}
                 {edit &&
-                    <div className='medical-record-form'>
+                    <div className='form-elements'>
                         <div className='dashboard-content-header'>
                             <h2>Edit Medical Record</h2>
                         </div>
@@ -235,27 +234,27 @@ const MedicalRecord = () => {
                             <form onSubmit={handleEditSubmit}>
                                 <label htmlFor="">Patient Id</label>
                                 <br />
-                                <input type="number" name="" id="" className='medical-record-input' value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
+                                <input type="number" name="" id="" className='form-inputs' value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Doctor Id</label>
                                 <br />
-                                <input type="number" name="" id="" className='medical-record-input' value={doctorId} onChange={(e) => setDoctorId(e.target.value)} required />
+                                <input type="number" name="" id="" className='form-inputs' value={doctorId} onChange={(e) => setDoctorId(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Date Of Record</label>
                                 <br />
-                                <input type="date" name="" id="" className='medical-record-input' value={date} onChange={(e) => setDate(e.target.value)} required />
+                                <input type="date" name="" id="" className='form-inputs' value={date} onChange={(e) => setDate(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Dignosis</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Prescription</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={prescription} onChange={(e) => setPrescription(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={prescription} onChange={(e) => setPrescription(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Notes</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={notes} onChange={(e) => setNotes(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={notes} onChange={(e) => setNotes(e.target.value)} required />
                                 <br />
                                 <button type="submit" className='save-btn'>Update</button>
                                 <button className='back-btn' onClick={handleBack}>Cancel</button>
@@ -266,7 +265,7 @@ const MedicalRecord = () => {
                     </div>
                 }
                 {add &&
-                    <div className='medical-record-form'>
+                    <div className='form-elements'>
                         <div className='dashboard-content-header'>
                             <h2>Add Medical Record</h2>
                         </div>
@@ -274,27 +273,27 @@ const MedicalRecord = () => {
                             <form onSubmit={handleAddSubmit}>
                                 <label htmlFor="">Patient Id</label>
                                 <br />
-                                <input type="number" name="" id="" className='medical-record-input' value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
+                                <input type="number" name="" id="" className='form-inputs' value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Doctor Id</label>
                                 <br />
-                                <input type="number" name="" id="" className='medical-record-input' value={doctorId} onChange={(e) => setDoctorId(e.target.value)} required />
+                                <input type="number" name="" id="" className='form-inputs' value={doctorId} onChange={(e) => setDoctorId(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Date Of Record</label>
                                 <br />
-                                <input type="date" name="" id="" className='medical-record-input' value={date} onChange={(e) => setDate(e.target.value)} required />
+                                <input type="date" name="" id="" className='form-inputs' value={date} onChange={(e) => setDate(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Dignosis</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={diagnosis} onChange={(e) => setDiagnosis(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Prescription</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={prescription} onChange={(e) => setPrescription(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={prescription} onChange={(e) => setPrescription(e.target.value)} required />
                                 <br />
                                 <label htmlFor="" className='form_label'>Notes</label>
                                 <br />
-                                <input type="text" name="" id="" className='medical-record-input' value={notes} onChange={(e) => setNotes(e.target.value)} required />
+                                <input type="text" name="" id="" className='form-inputs' value={notes} onChange={(e) => setNotes(e.target.value)} required />
                                 <br />
                                 <button type="submit" className='save-btn'>Save</button>
                                 <button className='back-btn' onClick={handleBack}>Cancel</button>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import '../MedicalRecords/MedicalRecord.css';
 import '../styles.css';
+import DashboardHeader from '../../components/DashboardHeader';
 const Appointment = () => {
   const [appointments, setAppointments] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -144,16 +144,8 @@ const Appointment = () => {
     <div>
       <div className="dashboard-content">
         <div className="dashbord-header-container">
-          {!edit && !add && (
-            <button className="dashbord-header-btn" onClick={handleNewAppointment}>
-              New Appointment
-            </button>
-          )}
-          {(edit || add) && (
-            <button className="dashbord-header-btn" onClick={handleBack}>
-              Back to Appointments
-            </button>
-          )}
+        {!edit && !add && <DashboardHeader btnText="New Appointment" onClick={handleNewAppointment} />}
+        {(edit || add) && <DashboardHeader btnText="Back to Appointments" onClick={handleBack} />}
         </div>
         {!edit && !add && (
           <div className="dashboard-content-container">
@@ -218,31 +210,31 @@ const Appointment = () => {
           </div>
         )}
         {edit && (
-          <div className="medical-record-form">
+          <div className="form-elements">
             <div className="dashboard-content-header">
               <h2>Edit Appointment Details</h2>
             </div>
             <form onSubmit={handleEditSubmit}>
               <label htmlFor="" className='form_label'>Appointment ID:</label><br />
-              <input className='medical-record-input' type="number" value={id} onChange={(e) => setId(e.target.value)} readOnly />
+              <input className='form-inputs' type="number" value={id} onChange={(e) => setId(e.target.value)} readOnly />
               <br />
               <label htmlFor="" className='form_label'>Patient ID:</label><br />
-              <input className='medical-record-input' type="number" value={patientId} required />
+              <input className='form-inputs' type="number" value={patientId} required />
               <br />
               <label htmlFor="" className='form_label'>Doctor ID:</label><br />
-              <input className='medical-record-input' type="number" value={doctorId} required />
+              <input className='form-inputs' type="number" value={doctorId} required />
               <br />
               <label htmlFor="" className='form_label'>Date:</label><br />
-              <input className='medical-record-input' type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              <input className='form-inputs' type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
               <br />
               <label htmlFor="" className='form_label'>Time:</label><br />
-              <input className='medical-record-input' type="text" value={time} onChange={(e) => setTime(e.target.value)} required />
+              <input className='form-inputs' type="text" value={time} onChange={(e) => setTime(e.target.value)} required />
               <br />
               <label htmlFor="" className='form_label'>Duration:</label><br />
-              <input className='medical-record-input' type="text" value={duration} onChange={(e) => setDuration(e.target.value)} required />
+              <input className='form-inputs' type="text" value={duration} onChange={(e) => setDuration(e.target.value)} required />
               <br />
               <label htmlFor="" className='form_label'>Status:</label><br />
-              <input className='medical-record-input' type="text" value={status} onChange={(e) => setStatus(e.target.value)} required />
+              <input className='form-inputs' type="text" value={status} onChange={(e) => setStatus(e.target.value)} required />
               <br />
               <button type="submit" className="save-btn">Save</button>
               <button className="back-btn" onClick={handleBack}>Cancel</button>
@@ -250,28 +242,28 @@ const Appointment = () => {
           </div>
         )}
         {add && (
-          <div className="medical-record-form">
+          <div className="form-elements">
             <div className="dashboard-content-header">
               <h2>Add Appointment</h2>
             </div>
             <form onSubmit={handleAddSubmit}>
               <label htmlFor="" className='form_label'>Patient ID:</label><br />
-              <input className='medical-record-input' type="text" value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
+              <input className='form-inputs' type="text" value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
               <br />
               <label htmlFor="" className='form_label'>Doctor ID:</label><br />
-              <input className='medical-record-input' type="text" value={doctorId} onChange={(e) => setDoctorId(e.target.value)} required />
+              <input className='form-inputs' type="text" value={doctorId} onChange={(e) => setDoctorId(e.target.value)} required />
               <br />
               <label htmlFor="" className='form_label'>Date:</label><br />
-              <input className='medical-record-input' type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              <input className='form-inputs' type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
               <br />
               <label htmlFor="" className='form_label'>Time:</label><br />
-              <input className='medical-record-input' type="text" value={time} onChange={(e) => setTime(e.target.value)} required />
+              <input className='form-inputs' type="text" value={time} onChange={(e) => setTime(e.target.value)} required />
               <br />
               <label htmlFor="" className='form_label'>Duration:</label><br />
-              <input className='medical-record-input' type="text" value={duration} onChange={(e) => setDuration(e.target.value)} required />
+              <input className='form-inputs' type="text" value={duration} onChange={(e) => setDuration(e.target.value)} required />
               <br />
               <label htmlFor="" className='form_label'>Status:</label><br />
-              <input className='medical-record-input' type="text" value={status} onChange={(e) => setStatus(e.target.value)} required />
+              <input className='form-inputs' type="text" value={status} onChange={(e) => setStatus(e.target.value)} required />
               <br />
               <button type="submit" className="save-btn">Save</button>
               <button className="back-btn" onClick={handleBack}>Cancel</button>

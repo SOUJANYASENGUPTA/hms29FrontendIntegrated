@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import '../MedicalRecords/MedicalRecord.css';  
 import '../styles.css';
+import DashboardHeader from '../../components/DashboardHeader';
 const Payment = () => {
   const [payments, setPayments] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -134,43 +134,35 @@ const Payment = () => {
     <div>
       <div className="dashboard-content">
         <div className="dashbord-header-container">
-          {!edit && !add && (
-            <button className="dashbord-header-btn" onClick={handleNewPayment}>
-              New Payment
-            </button>
-          )}
-          {(edit || add) && (
-            <button className="dashbord-header-btn" onClick={handleBack}>
-              Back to Payments
-            </button>
-          )}
+          {!edit && !add && <DashboardHeader btnText="New Payment" onClick={handleNewPayment} />}
+          {(edit || add) && <DashboardHeader btnText="Back to Payments" onClick={handleBack} />}
         </div>
         {!edit && !add && (
           <div className="dashboard-content-container">
             <div className="dashboard-content-header">
               <h2>Payment List</h2>
               <div className='dashboard-content-search'>
-                            <input
-                                type='text'
-                                placeholder='Search..'
-                                className='dashboard-content-input'
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                min="1"
-                                inputMode="numeric"
-                            />
-                </div>
+                <input
+                  type='text'
+                  placeholder='Search..'
+                  className='dashboard-content-input'
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  min="1"
+                  inputMode="numeric"
+                />
+              </div>
             </div>
             <table>
               <thead>
-               
-                  <th>ID</th>
-                  <th>Date</th>
-                  <th>Amount</th>
-                  <th>Treatment Description</th>
-                  <th>Patient ID</th>
-                  <th>Actions</th>
-                
+
+                <th>ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Treatment Description</th>
+                <th>Patient ID</th>
+                <th>Actions</th>
+
               </thead>
               {payments.length !== 0 && (
                 <tbody>
@@ -199,40 +191,40 @@ const Payment = () => {
           </div>
         )}
         {edit && (
-          <div className="medical-record-form">
+          <div className="form-elements">
             <div className="dashboard-content-header">
               <h2>Edit Payment Details</h2>
             </div>
             <form onSubmit={handleEditSubmit}>
               <label htmlFor="" className='form_label'>Payment ID:</label><br />
-              <input type="text" value={id} className='medical-record-input' onChange={(e) => setId(e.target.value)} readOnly />
+              <input type="text" value={id} className='form-inputs' onChange={(e) => setId(e.target.value)} readOnly />
               <br /><label htmlFor="" className='form_label'>Date:</label><br />
-              <input type="date" value={date} className='medical-record-input' onChange={(e) => setDate(e.target.value)} required />
+              <input type="date" value={date} className='form-inputs' onChange={(e) => setDate(e.target.value)} required />
               <br /><label htmlFor="" className='form_label'>Amount:</label><br />
-              <input type="text" value={amount} className='medical-record-input' onChange={(e) => setAmount(e.target.value)} required />
+              <input type="text" value={amount} className='form-inputs' onChange={(e) => setAmount(e.target.value)} required />
               <br /><label htmlFor="" className='form_label'>Treatment Description:</label><br />
-              <input type="text" value={treatmentDescription} className='medical-record-input' onChange={(e) => setTreatmentDescription(e.target.value)} required />
+              <input type="text" value={treatmentDescription} className='form-inputs' onChange={(e) => setTreatmentDescription(e.target.value)} required />
               <br /><label htmlFor="" className='form_label'>Patient ID:</label><br />
-              <input type="text" value={patientId} className='medical-record-input' required />
+              <input type="text" value={patientId} className='form-inputs' required />
               <br /><button type="submit" className="save-btn">Save</button>
               <button className="back-btn" onClick={handleBack}>Cancel</button>
             </form>
           </div>
         )}
         {add && (
-          <div className="medical-record-form">
+          <div className="form-elements">
             <div className="dashboard-content-header">
               <h2>Add Payment</h2>
             </div>
             <form onSubmit={handleAddSubmit}>
-            <label htmlFor="" className='form_label'>Date:</label><br />
-              <input type="date" value={date} className='medical-record-input'onChange={(e) => setDate(e.target.value)} required />
+              <label htmlFor="" className='form_label'>Date:</label><br />
+              <input type="date" value={date} className='form-inputs' onChange={(e) => setDate(e.target.value)} required />
               <br /><label htmlFor="" className='form_label'>Amount:</label><br />
-              <input type="number" className='medical-record-input'value={amount} onChange={(e) => setAmount(e.target.value)} required />
+              <input type="number" className='form-inputs' value={amount} onChange={(e) => setAmount(e.target.value)} required />
               <br /><label htmlFor="" className='form_label'>Treatment Description:</label><br />
-              <input type="text" className='medical-record-input'value={treatmentDescription} onChange={(e) => setTreatmentDescription(e.target.value)} required />
+              <input type="text" className='form-inputs' value={treatmentDescription} onChange={(e) => setTreatmentDescription(e.target.value)} required />
               <br /><label htmlFor="" className='form_label'>Patient ID:</label><br />
-              <input type="number" className='medical-record-input'value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
+              <input type="number" className='form-inputs' value={patientId} onChange={(e) => setPatientId(e.target.value)} required />
               <br /><button type="submit" className="save-btn">Save</button>
               <button className="back-btn" onClick={handleBack}>Cancel</button>
             </form>

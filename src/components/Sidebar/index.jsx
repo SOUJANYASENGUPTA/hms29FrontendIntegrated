@@ -28,12 +28,12 @@ function SideBar ({ menu , signOut, user }) {
         <nav className='sidebar'>
             <div className='sidebar-container'>
                 <div className='sidebar-logo-container'>
-                    <img
+                    {/* <img
                         src={logo}
-                        alt="logo" />
-                    
+                        alt="logo" /> */}
+                    <h2 style={{color:"white"}}>HMS TEAM-29</h2>
                 </div>
-                <span className='sidebar-item-label' style={{color:'white'}}>Welcome {user.phoneNumber}</span>
+                <span className='sidebar-item-label' style={{color:'white',marginLeft:"2rem"}}>Welcome {user.phoneNumber}</span>
                 <div className='sidebar-container'>
                     <div className='sidebar-items'>
                         {menu.map((item, index) => (

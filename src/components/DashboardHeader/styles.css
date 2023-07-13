@@ -1,9 +1,11 @@
 .dashbord-header-container {
+    position:static;
     padding: 1em;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
 }
 .dashbord-header-btn {
     padding: 0.8em;
