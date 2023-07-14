@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import '../styles.css';
 // import NotificationIcon from '../../assets/icons/notification.svg';
 // import SettingsIcon from '../../assets/icons/settings.svg';
@@ -170,18 +170,18 @@ const MedicalRecord = () => {
         setSearchQuery(query);
         console.log(page);
         if (query !== '') {
-          const searchResults = records.filter((record) =>
-            record.id.toString().includes(query)
-          );
-          console.log(searchResults)
-          setPagination(calculateRange(searchResults, 7));
-          setPagedRecords(searchResults);
+            const searchResults = records.filter((record) =>
+                record.id.toString().includes(query)
+            );
+            console.log(searchResults)
+            setPagination(calculateRange(searchResults, 7));
+            setPagedRecords(searchResults);
         } else {
-          setPagination(calculateRange(records, 7))
-          setPagedRecords(sliceData(records, page, 7));
+            setPagination(calculateRange(records, 7))
+            setPagedRecords(sliceData(records, page, 7));
         }
-      };
-      
+    };
+
     const clearFields = () => {
         setRecordId('')
         setDiagnosis('')
@@ -194,23 +194,8 @@ const MedicalRecord = () => {
     return (
         <div>
             <div className='dashboard-content'>
-                <div className='dashbord-header-container'>
-                    {!edit && !add && <DashboardHeader btnText="New Record" onClick={handleNewRecord} />}
-                    {(edit || add) && <DashboardHeader btnText="Back to Records" onClick={handleBack} />}
-                    {/* <div className='dashbord-header-right'>
-                        <img
-                            src={NotificationIcon}
-                            alt='notification-icon'
-                            className='dashbord-header-icon' />
-                        <img
-                            src={SettingsIcon}
-                            alt='settings-icon'
-                            className='dashbord-header-icon' />
-                        <img
-                            className='dashbord-header-avatar'
-                            src='https://reqres.in/img/faces/9-image.jpg' />
-                    </div> */}
-                </div>
+                {!edit && !add && <DashboardHeader btnText="New Record" onClick={handleNewRecord} />}
+                {(edit || add) && <DashboardHeader btnText="Back to Records" onClick={handleBack} />}
                 {!edit && !add && <div className='dashboard-content-container'>
                     <div className='dashboard-content-header'>
                         <h2>Medical Records List</h2>
@@ -230,11 +215,11 @@ const MedicalRecord = () => {
                         <thead>
                             <th>ID</th>
                             <th>DATE</th>
+                            <th>PATIENT ID</th>
+                            <th>DOCTOR ID</th>
                             <th>DIAGNOSIS</th>
                             {/* <th>PRESCRIPTION</th> */}
                             {/* <th>NOTES</th> */}
-                            <th>PATIENT ID</th>
-                            <th>DOCTOR ID</th>
                             <th>ACTIONS</th>
                         </thead>
                         {pagedRecords.length !== 0 ?
@@ -243,11 +228,11 @@ const MedicalRecord = () => {
                                     return <tr key={record.id}>
                                         <td><span>{record.id}</span></td>
                                         <td><span>{record.date}</span></td>
+                                        <td><span>{record.patient_id}</span></td>
+                                        <td><span>{record.doctor_id}</span></td>
                                         <td><span>{record.diagnosis.length < 14 ? record.diagnosis : record.diagnosis.substring(0, 14) + "..."}</span></td>
                                         {/* <td><span>{record.prescription.length < 14 ? record.prescription : record.prescription.substring(0, 14) + "..."}</span></td> */}
                                         {/* <td><span>{record.notes.length < 14 ? record.notes : record.notes.substring(0, 14) + "..."}</span></td> */}
-                                        <td><span>{record.patient_id}</span></td>
-                                        <td><span>{record.doctor_id}</span></td>
                                         <td>
                                             <button onClick={() => handleEdit(record)} className='edit-save-btn'>Edit</button>
                                             <button onClick={() => handleDelete(record.id)} className='edit-back-btn'>Delete</button>

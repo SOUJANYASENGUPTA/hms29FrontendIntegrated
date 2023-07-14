@@ -186,23 +186,8 @@ const Staff = () => {
     return (
         <div>
             <div className='dashboard-content'>
-                <div className='dashbord-header-container'>
-                    {!edit && !add && <DashboardHeader btnText="New Staff" onClick={handleNewStaff} />}
-                    {(edit || add) && <DashboardHeader btnText="Back to Staff" onClick={handleBack} />}
-                    {/* <div className='dashbord-header-right'>
-                        <img
-                            src={NotificationIcon}
-                            alt='notificationIcon'
-                            className='dashbord-header-icon' />
-                        <img
-                            src={SettingsIcon}
-                            alt='settingsIcon'
-                            className='dashbord-header-icon' />
-                        <img
-                            className='dashbord-header-avatar'
-                            src='https://reqres.in/img/faces/9-image.jpg' alt="dashImage" />
-                    </div> */}
-                </div>
+                {!edit && !add && <DashboardHeader btnText="New Staff" onClick={handleNewStaff} />}
+                {(edit || add) && <DashboardHeader btnText="Back to Staff" onClick={handleBack} />}
                 {!edit && !add && <div className='dashboard-content-container'>
                     <div className='dashboard-content-header'>
                         <h2>Staff List</h2>

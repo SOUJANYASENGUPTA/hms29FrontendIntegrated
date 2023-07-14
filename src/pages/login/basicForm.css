@@ -3,7 +3,7 @@ img{
   
 }
 .login {
-    height: 1000px;
+    height: 100vh;
     width: 100%;
     background: radial-gradient(#015752, #f6f8f8);
     position: relative;

@@ -133,10 +133,8 @@ const Payment = () => {
   return (
     <div>
       <div className="dashboard-content">
-        <div className="dashbord-header-container">
-          {!edit && !add && <DashboardHeader btnText="New Payment" onClick={handleNewPayment} />}
-          {(edit || add) && <DashboardHeader btnText="Back to Payments" onClick={handleBack} />}
-        </div>
+        {!edit && !add && <DashboardHeader btnText="New Payment" onClick={handleNewPayment} />}
+        {(edit || add) && <DashboardHeader btnText="Back to Payments" onClick={handleBack} />}
         {!edit && !add && (
           <div className="dashboard-content-container">
             <div className="dashboard-content-header">

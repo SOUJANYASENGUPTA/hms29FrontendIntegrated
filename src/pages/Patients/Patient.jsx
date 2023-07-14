@@ -192,23 +192,8 @@ const Patient = () => {
     return (
         <div>
             <div className='dashboard-content'>
-                <div className='dashbord-header-container'>
                     {!edit && !add && <DashboardHeader btnText="New Patient" onClick={handleNewPatient} />}
                     {(edit || add) && <DashboardHeader btnText="Back to Patients" onClick={handleBack} />}
-                    {/* <div className='dashbord-header-right'>
-                        <img
-                            src={NotificationIcon}
-                            alt='notification-icon'
-                            className='dashbord-header-icon' />
-                        <img
-                            src={SettingsIcon}
-                            alt="settings icon"
-                            className='dashbord-header-icon' />
-                        <img
-                            className='dashbord-header-avatar'
-                            src='https://reqres.in/img/faces/9-image.jpg' alt="dash img here" />
-                    </div> */}
-                </div>
                 {!edit && !add && <div className='dashboard-content-container'>
                     <div className='dashboard-content-header'>
                         <h2>Patients List</h2>

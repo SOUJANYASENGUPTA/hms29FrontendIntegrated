@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import '../styles.css';
-import NotificationIcon from '../../assets/icons/notification.svg';
-import SettingsIcon from '../../assets/icons/settings.svg';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import DashboardHeader from '../../components/DashboardHeader';
@@ -129,23 +127,8 @@ const Inventory = () => {
     return (
         <div>
             <div className='dashboard-content'>
-                <div className='dashbord-header-container'>
-                    {!edit && !add && <DashboardHeader btnText="New Inventory" onClick={handleNewAppointment} />}
-                    {(edit || add) && <DashboardHeader btnText="Back to Inventory" onClick={handleBack} />}
-                    {/* <div className='dashbord-header-right'>
-                        <img
-                            src={NotificationIcon}
-                            alt='notificationIcon'
-                            className='dashbord-header-icon' />
-                        <img
-                            src={SettingsIcon}
-                            alt='settingsIcon'
-                            className='dashbord-header-icon' />
-                        <img
-                            className='dashbord-header-avatar'
-                            src='https://reqres.in/img/faces/9-image.jpg' alt="dashImage" />
-                    </div> */}
-                </div>
+                {!edit && !add && <DashboardHeader btnText="New Inventory" onClick={handleNewAppointment} />}
+                {(edit || add) && <DashboardHeader btnText="Back to Inventory" onClick={handleBack} />}
                 {!edit && !add && <div className='dashboard-content-container'>
                     <div className='dashboard-content-header'>
                         <h2>Inventory List</h2>

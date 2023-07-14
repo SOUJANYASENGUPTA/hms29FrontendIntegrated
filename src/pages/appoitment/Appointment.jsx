@@ -143,10 +143,8 @@ const Appointment = () => {
   return (
     <div>
       <div className="dashboard-content">
-        <div className="dashbord-header-container">
         {!edit && !add && <DashboardHeader btnText="New Appointment" onClick={handleNewAppointment} />}
         {(edit || add) && <DashboardHeader btnText="Back to Appointments" onClick={handleBack} />}
-        </div>
         {!edit && !add && (
           <div className="dashboard-content-container">
             <div className="dashboard-content-header">

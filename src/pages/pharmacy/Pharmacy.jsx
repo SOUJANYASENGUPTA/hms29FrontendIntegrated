@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import '../styles.css';
-import NotificationIcon from '../../assets/icons/notification.svg';
-import SettingsIcon from '../../assets/icons/settings.svg';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import DashboardHeader from '../../components/DashboardHeader';
@@ -16,7 +14,6 @@ const Pharmacy = () => {
     const [prescriptionNumber, setPrescriptionNumber] = useState('')
     const [patientId, setPatientId] = useState('')
     const [searchQuery, setSearchQuery] = useState('');
-    const [patientExists, setPatientExists] = useState(false);
     const fetchpharmacies = async () => {
         await axios.get('http://localhost:8080/pharmacy').then((response) => {
             setPharmacy(response.data);
@@ -133,24 +130,8 @@ const Pharmacy = () => {
     return (
         <div>
             <div className='dashboard-content'>
-                <div className='dashbord-header-container'>
-                    {!edit && !add && <DashboardHeader btnText="New Appointment" onClick={handleNewPharmacy} />}
-                    {(edit || add) && <DashboardHeader btnText="Back to Appointments" onClick={handleBack} />}
-                    {/* <div className='dashbord-header-right'>
-                    {/*<div className='dashbord-header-right'>
-                        <img
-                            src={NotificationIcon}
-                            alt='notificationIcon'
-                            className='dashbord-header-icon' />
-                        <img
-                            src={SettingsIcon}
-                            alt='settingsIcon'
-                            className='dashbord-header-icon' />
-                        <img
-                            className='dashbord-header-avatar'
-                            src='https://reqres.in/img/faces/9-image.jpg' alt="dashImage" />
-                    </div>*/}
-                </div>
+                {!edit && !add && <DashboardHeader btnText="New Pharmacy" onClick={handleNewPharmacy} />}
+                {(edit || add) && <DashboardHeader btnText="Back to Pharmacy" onClick={handleBack} />}
                 {!edit && !add && <div className='dashboard-content-container'>
                     <div className='dashboard-content-header'>
                         <h2>Pharmacy List</h2>
