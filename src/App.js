@@ -12,7 +12,7 @@ import MedicalRecords from './pages/MedicalRecords/MedicalRecords'
 import Staff from './pages/Staff/Staff';
 import Pharmacy from './pages/pharmacy/Pharmacy';
 import Inventory from './pages/inventory/Inventory';
-import Appointment from './pages/appoitment/Appointment';
+import Appointment from './pages/appointment/Appointment';
 import Payment from './pages/billing/Billing';
 function App () {
   const [viewOtpForm, setViewOtpForm] = useState(false);
