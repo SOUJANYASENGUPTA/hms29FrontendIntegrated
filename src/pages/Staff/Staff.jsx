@@ -205,16 +205,18 @@ const Staff = () => {
                     </div>
                     <table>
                         <thead>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>AGE</th>
-                            <th>GENDER</th>
-                            {/* <th>ADDRESS</th> */}
-                            <th>PHONE</th>
-                            {/* <th>EMAIL</th> */}
-                            <th>JOB TITLE</th>
-                            {/* <th>SALARY</th> */}
-                            <th>Actions</th>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>AGE</th>
+                                <th>GENDER</th>
+                                {/* <th>ADDRESS</th> */}
+                                <th>PHONE</th>
+                                {/* <th>EMAIL</th> */}
+                                <th>JOB TITLE</th>
+                                {/* <th>SALARY</th> */}
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         {staff.length !== 0 &&
                             <tbody>

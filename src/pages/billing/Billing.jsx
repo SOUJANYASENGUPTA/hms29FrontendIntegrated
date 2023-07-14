@@ -153,14 +153,14 @@ const Payment = () => {
             </div>
             <table>
               <thead>
-
-                <th>ID</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Treatment Description</th>
-                <th>Patient ID</th>
-                <th>Actions</th>
-
+                <tr>
+                  <th>ID</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Treatment Description</th>
+                  <th>Patient ID</th>
+                  <th>Actions</th>
+                </tr>
               </thead>
               {payments.length !== 0 && (
                 <tbody>

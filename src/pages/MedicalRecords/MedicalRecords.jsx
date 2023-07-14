@@ -219,39 +219,58 @@ const MedicalRecord = () => {
                         </div>
                     </div>
                     <table>
-                        <thead>
-                            <th>ID</th>
-                            <th>DATE</th>
-                            <th>PATIENT ID</th>
-                            <th>DOCTOR ID</th>
-                            <th>DIAGNOSIS</th>
-                            {/* <th>PRESCRIPTION</th> */}
-                            {/* <th>NOTES</th> */}
-                            <th>ACTIONS</th>
-                        </thead>
-                        {records.length !== 0 ?
-                            <tbody>
-                                {records.filter((record)=>{
-                                    return record.id.toString().includes(searchQuery)
-                                }).map((record) => {
-                                    return <tr key={record.id}>
-                                        <td><span>{record.id}</span></td>
-                                        <td><span>{record.date}</span></td>
-                                        <td><span>{record.patient_id}</span></td>
-                                        <td><span>{record.doctor_id}</span></td>
-                                        <td><span>{record.diagnosis.length < 14 ? record.diagnosis : record.diagnosis.substring(0, 14) + "..."}</span></td>
-                                        {/* <td><span>{record.prescription.length < 14 ? record.prescription : record.prescription.substring(0, 14) + "..."}</span></td> */}
-                                        {/* <td><span>{record.notes.length < 14 ? record.notes : record.notes.substring(0, 14) + "..."}</span></td> */}
-                                        <td>
-                                            <button onClick={() => handleEdit(record)} className='edit-save-btn'>Edit</button>
-                                            <button onClick={() => handleDelete(record.id)} className='edit-back-btn'>Delete</button>
-                                            <button className='view-btn' onClick={() => handleView(record)}>View</button>
-                                        </td>
-                                    </tr>
-                                })}
-                            </tbody> : <></>
-                        }
-                    </table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>DATE</th>
+      <th>PATIENT ID</th>
+      <th>DOCTOR ID</th>
+      <th>DIAGNOSIS</th>
+       {/* <th>PRESCRIPTION</th> 
+      <th>NOTES</th> */}
+      <th>ACTIONS</th>
+    </tr>
+  </thead>
+  {records.length !== 0 && (
+    <tbody>
+      {records
+        .filter((record) => record.id.toString().includes(searchQuery))
+        .map((record) => (
+          <tr key={record.id}>
+            <td><span>{record.id}</span></td>
+            <td><span>{record.date}</span></td>
+            <td><span>{record.patient_id}</span></td>
+            <td><span>{record.doctor_id}</span></td>
+            <td>
+              <span>{record.diagnosis.length<14?record.diagnosis:record.diagnosis.substring(0, 14)+"..."}</span>
+            </td>
+            {/* <td>
+              {record.prescription.length < 14
+                ? record.prescription
+                : record.prescription.substring(0, 14) + "..."}
+            </td> */}
+            {/* <td>
+              {record.notes.length < 14
+                ? record.notes
+                : record.notes.substring(0, 14) + "..."}
+            </td> */}
+            <td>
+              <button onClick={() => handleEdit(record)} className="edit-save-btn">
+                Edit
+              </button>
+              <button onClick={() => handleDelete(record.id)} className="edit-back-btn">
+                Delete
+              </button>
+              <button className="view-btn" onClick={() => handleView(record)}>
+                View
+              </button>
+            </td>
+          </tr>
+        ))}
+    </tbody>
+  )}
+</table>
+
                     {/* {pagedRecords.length !== 0 ?
                         <div className='dashboard-content-footer'>
                             {pagination.map((item, index) => (

@@ -150,19 +150,20 @@ const Appointment = () => {
             <div className="dashboard-content-header">
               <h2>Appointment List</h2>
               <div className='dashboard-content-search'>
-                            <input
-                                type='text'
-                                placeholder='Search..'
-                                className='dashboard-content-input'
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                min="1"
-                                inputMode="numeric"
-                            />
-                </div>
+                <input
+                  type='text'
+                  placeholder='Search..'
+                  className='dashboard-content-input'
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  min="1"
+                  inputMode="numeric"
+                />
+              </div>
             </div>
             <table>
               <thead>
+                <tr>
                   <th>ID</th>
                   <th>Patient ID</th>
                   <th>Doctor ID</th>
@@ -171,6 +172,8 @@ const Appointment = () => {
                   <th>Duration</th>
                   <th>Status</th>
                   <th>Actions</th>
+                </tr>
+
               </thead>
               {appointments.length !== 0 && (
                 <tbody>
@@ -214,7 +217,7 @@ const Appointment = () => {
             </div>
             <form onSubmit={handleEditSubmit}>
               <label htmlFor="" className='form_label'>Appointment ID:</label><br />
-              <input className='form-inputs' type="number" value={id} onChange={(e) => setId(e.target.value)} readOnly />
+              <input className='form-inputs' type="number" value={id} readOnly />
               <br />
               <label htmlFor="" className='form_label'>Patient ID:</label><br />
               <input className='form-inputs' type="number" value={patientId} required />

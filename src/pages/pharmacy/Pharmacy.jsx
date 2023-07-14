@@ -149,13 +149,15 @@ const Pharmacy = () => {
                     </div>
                     <table>
                         <thead>
-                            <th>ID</th>
-                            <th>MEDICATION NAME</th>
-                            <th>DOSAGE</th>
-                            <th>REFILL DATE</th>
-                            <th>PRESCRIPTION</th>
-                            <th>PATIENT ID</th>
-                            <th>ACTIONS</th>
+                            <tr>
+                                <th>ID</th>
+                                <th>MEDICATION NAME</th>
+                                <th>DOSAGE</th>
+                                <th>REFILL DATE</th>
+                                <th>PRESCRIPTION</th>
+                                <th>PATIENT ID</th>
+                                <th>ACTIONS</th>
+                            </tr>
                         </thead>
                         {pharmacy.length !== 0 &&
                             <tbody>

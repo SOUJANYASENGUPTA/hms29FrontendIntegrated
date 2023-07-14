@@ -146,13 +146,15 @@ const Inventory = () => {
                     </div>
                     <table>
                         <thead>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>QUANTITY</th>
-                            <th>CATEGORY</th>
-                            <th>PRICE</th>
-                            <th>SUPPLIER</th>
-                            <th>ACTIONS</th>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>QUANTITY</th>
+                                <th>CATEGORY</th>
+                                <th>PRICE</th>
+                                <th>SUPPLIER</th>
+                                <th>ACTIONS</th>
+                            </tr>
                         </thead>
                         {inventory.length !== 0 &&
                             <tbody>

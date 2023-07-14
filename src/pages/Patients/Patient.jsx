@@ -192,8 +192,8 @@ const Patient = () => {
     return (
         <div>
             <div className='dashboard-content'>
-                    {!edit && !add && <DashboardHeader btnText="New Patient" onClick={handleNewPatient} />}
-                    {(edit || add) && <DashboardHeader btnText="Back to Patients" onClick={handleBack} />}
+                {!edit && !add && <DashboardHeader btnText="New Patient" onClick={handleNewPatient} />}
+                {(edit || add) && <DashboardHeader btnText="Back to Patients" onClick={handleBack} />}
                 {!edit && !add && <div className='dashboard-content-container'>
                     <div className='dashboard-content-header'>
                         <h2>Patients List</h2>
@@ -211,16 +211,18 @@ const Patient = () => {
                     </div>
                     <table>
                         <thead>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>AGE</th>
-                            <th>GENDER</th>
-                            {/* <th>ADDRESS</th> */}
-                            <th>PHONE</th>
-                            {/* <th>EMAIL</th> */}
-                            {/* <th>MEDICAL HISTORY</th> */}
-                            {/* <th>TREATMENT PLAN</th> */}
-                            <th>Actions</th>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>AGE</th>
+                                <th>GENDER</th>
+                                {/* <th>ADDRESS</th> */}
+                                <th>PHONE</th>
+                                {/* <th>EMAIL</th> */}
+                                {/* <th>MEDICAL HISTORY</th> */}
+                                {/* <th>TREATMENT PLAN</th> */}
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         {patients.length !== 0 &&
                             <tbody>

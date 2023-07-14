@@ -65,7 +65,7 @@
     padding: 0.625rem;
 }
 table {
-    width: 100%;
+    width:100%;
     margin: auto;
 }
 th {
@@ -85,7 +85,7 @@ tbody {
 }
 tr, thead {
     color: inherit;
-    display: table-row;
+    /* display: table-row; */
     vertical-align: middle;
     outline: 0px;
 }
