@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState} from 'react'
 import '../styles.css';
 // import NotificationIcon from '../../assets/icons/notification.svg';
 // import SettingsIcon from '../../assets/icons/settings.svg';
@@ -6,7 +6,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../components/DashboardHeader/styles.css'
 import DashboardHeader from '../../components/DashboardHeader';
-import { sliceData, calculateRange } from '../../utils/table-pagination';
+// import { sliceData, calculateRange } from '../../utils/table-pagination';
 const MedicalRecord = () => {
     const [records, setRecords] = useState([]);
     const [edit, setEdit] = useState(false);
@@ -18,29 +18,35 @@ const MedicalRecord = () => {
     const [date, setDate] = useState('');
     const [notes, setNotes] = useState('')
     const [prescription, setPrescription] = useState('')
-    const [error, setError] = useState("")
-    const [checkValid, setCheckValid] = useState(false);
+    // const [error, setError] = useState("")
+    // const [checkValid, setCheckValid] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [page, setPage] = useState(1);
-    const [pagination, setPagination] = useState([]);
-    const [pagedRecords, setPagedRecords] = useState([]);
-    const __handleChangePage = (new_page) => {
-        setPage(new_page);
-        setPagedRecords(sliceData(records, new_page, 7));
-    }
-    const fetchRecords = useCallback(async () => {
-        await axios.get('http://localhost:8080/medical-records').then((response) => {
+    // const [page, setPage] = useState(1);
+    // const [pagination, setPagination] = useState([]);
+    // const [pagedRecords, setPagedRecords] = useState([]);
+    // const __handleChangePage = (new_page) => {
+    //     setPage(new_page);
+    //     setPagedRecords(sliceData(records, new_page, 7));
+    // }
+    // const fetchRecords = useCallback(async () => {
+    //     await axios.get('http://localhost:8080/medical-records').then((response) => {
+    //         setRecords(response.data);
+    //         if (response.data.length !== 0) {
+    //             setPagination(calculateRange(response.data, 7));
+    //             setPagedRecords(sliceData(response.data, page, 7));
+    //         }
+    //     });
+    // }, [page]);
+    const fetchRecords=async()=>{
+        await axios.get('http://localhost:8080/medical-records').then((response)=>{
             setRecords(response.data);
-            if (response.data.length !== 0) {
-                setPagination(calculateRange(response.data, 7));
-                setPagedRecords(sliceData(response.data, page, 7));
-            }
-        });
-    }, [page]);
+        }).catch((err)=>{
 
+        })
+    }
     useEffect(() => {
         fetchRecords();
-    }, [fetchRecords]);
+    }, []);
     const SubmitDelete = async (id) => {
         await axios.delete(`http://localhost:8080/medical-records/${id}`).then(() => {
             console.log("in delete")
@@ -165,22 +171,22 @@ const MedicalRecord = () => {
             })
         })
     }
-    const handleSearch = (e) => {
-        const query = e.target.value;
-        setSearchQuery(query);
-        console.log(page);
-        if (query !== '') {
-            const searchResults = records.filter((record) =>
-                record.id.toString().includes(query)
-            );
-            console.log(searchResults)
-            setPagination(calculateRange(searchResults, 7));
-            setPagedRecords(searchResults);
-        } else {
-            setPagination(calculateRange(records, 7))
-            setPagedRecords(sliceData(records, page, 7));
-        }
-    };
+    // const handleSearch = (e) => {
+    //     const query = e.target.value;
+    //     setSearchQuery(query);
+    //     console.log(page);
+    //     if (query !== '') {
+    //         const searchResults = records.filter((record) =>
+    //             record.id.toString().includes(query)
+    //         );
+    //         console.log(searchResults)
+    //         setPagination(calculateRange(searchResults, 7));
+    //         setPagedRecords(searchResults);
+    //     } else {
+    //         setPagination(calculateRange(records, 7))
+    //         setPagedRecords(sliceData(records, page, 7));
+    //     }
+    // };
 
     const clearFields = () => {
         setRecordId('')
@@ -205,7 +211,8 @@ const MedicalRecord = () => {
                                 placeholder='Search...'
                                 className='dashboard-content-input'
                                 value={searchQuery}
-                                onChange={(e) => handleSearch(e)}
+                                // onChange={(e) => handleSearch(e)}
+                                onChange={(e)=>setSearchQuery(e.target.value)}
                                 min="1"
                                 inputMode="numeric"
                             />
@@ -222,9 +229,11 @@ const MedicalRecord = () => {
                             {/* <th>NOTES</th> */}
                             <th>ACTIONS</th>
                         </thead>
-                        {pagedRecords.length !== 0 ?
+                        {records.length !== 0 ?
                             <tbody>
-                                {pagedRecords.map((record) => {
+                                {records.filter((record)=>{
+                                    return record.id.toString().includes(searchQuery)
+                                }).map((record) => {
                                     return <tr key={record.id}>
                                         <td><span>{record.id}</span></td>
                                         <td><span>{record.date}</span></td>
@@ -243,7 +252,7 @@ const MedicalRecord = () => {
                             </tbody> : <></>
                         }
                     </table>
-                    {pagedRecords.length !== 0 ?
+                    {/* {pagedRecords.length !== 0 ?
                         <div className='dashboard-content-footer'>
                             {pagination.map((item, index) => (
                                 <span
@@ -258,7 +267,7 @@ const MedicalRecord = () => {
                         <div className='dashboard-content-footer'>
                             <span className='empty-table'>No data</span>
                         </div>
-                    }
+                    } */}
                 </div>}
                 {edit &&
                     <div className='form-elements'>
@@ -336,7 +345,7 @@ const MedicalRecord = () => {
                                 <br />
                                 <button type="submit" className='save-btn'>Save</button>
                                 <button className='back-btn' onClick={handleBack}>Cancel</button>
-                                {!checkValid && <span style={{ marginLeft: "20rem", color: "red" }}>{error}</span>}
+                                {/* {!checkValid && <span style={{ marginLeft: "20rem", color: "red" }}>{error}</span>} */}
                             </form>
                         </div>
                     </div>

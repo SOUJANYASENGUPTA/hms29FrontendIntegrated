@@ -5,6 +5,12 @@ import UserIcon from '../assets/icons/user.svg';
 
 const sidebar_menu = [
     {
+        id: 0,
+        icon: UserIcon,
+        path: '/dashboard',
+        title: 'Dashboard',
+    },
+    {
         id: 1,
         icon: UserIcon,
         path: '/patients',
