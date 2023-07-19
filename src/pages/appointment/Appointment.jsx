@@ -36,22 +36,25 @@ const Appointment = () => {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: 'Do you want to Delete?',
-      showDenyButton: true,
-      confirmButtonText: 'Yes',
-      denyButtonText: 'No',
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: `No`,
     }).then((result) => {
-      if (result.isConfirmed) {
-        submitDelete(id);
-        Swal.fire({
-          icon: 'success',
-          title: 'Appointment Deleted',
-          showConfirmButton: false,
-          timer: 1000,
-        });
-      }
-    });
-  };
+        if (result.isConfirmed) {
+            submitDelete(id);
+            Swal.fire({
+                icon: 'success',
+                text: "Success",
+                title: 'Record Deleted',
+                showConfirmButton: false,
+                timer: 1000
+            })
+        }
+    })
+}
 
   const handleEdit = (appointment) => {
     setEdit(true);
@@ -92,6 +95,7 @@ const Appointment = () => {
     await axios.put('http://localhost:8080/appointment', updatedAppointment).then(() => {
       Swal.fire({
         icon: 'success',
+        title: 'Updated',
         title: 'Appointment Updated Successfully',
         showConfirmButton: false,
         timer: 1000,

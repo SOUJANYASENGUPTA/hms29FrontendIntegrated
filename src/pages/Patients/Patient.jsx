@@ -16,8 +16,7 @@ const Patient = () => {
     const [email, setEmail] = useState('')
     const [medicalHistory, setMedicalHistory] = useState('')
     const [treatmentPlan, setTreatmentPlan] = useState('')
-    const [searchQuery, setSearchQuery] = useState('');
-    const [pagination, setPagination] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('')
     const fetchPatients = async () => {
         await axios.get('http://localhost:8080/patient').then((response) => {
             setPatients(response.data);
@@ -42,9 +41,11 @@ const Patient = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
       }; */
-    const handleDelete = (id) => {
+      const handleDelete = (id) => {
         Swal.fire({
-            title: 'Do you want to Delete?',
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
             showDenyButton: true,
             confirmButtonText: 'Yes',
             denyButtonText: `No`,
@@ -53,6 +54,7 @@ const Patient = () => {
                 SubmitDelete(id);
                 Swal.fire({
                     icon: 'success',
+                    text: "Success",
                     title: 'Patient Deleted',
                     showConfirmButton: false,
                     timer: 1000

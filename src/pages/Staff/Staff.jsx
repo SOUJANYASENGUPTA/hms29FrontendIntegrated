@@ -33,7 +33,9 @@ const Staff = () => {
     }
     const handleDelete = (id) => {
         Swal.fire({
-            title: 'Do you want to Delete?',
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
             showDenyButton: true,
             confirmButtonText: 'Yes',
             denyButtonText: `No`,
@@ -42,7 +44,8 @@ const Staff = () => {
                 SubmitDelete(id);
                 Swal.fire({
                     icon: 'success',
-                    title: 'staff Deleted',
+                    text: "Success",
+                    title: 'Staff Deleted',
                     showConfirmButton: false,
                     timer: 1000
                 })

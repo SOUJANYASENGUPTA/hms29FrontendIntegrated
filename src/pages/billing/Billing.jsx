@@ -34,23 +34,25 @@ const Payment = () => {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: 'Do you want to delete?',
-      showDenyButton: true,
-      confirmButtonText: 'Yes',
-      denyButtonText: 'No',
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: `No`,
     }).then((result) => {
-      if (result.isConfirmed) {
-        submitDelete(id);
-        Swal.fire({
-          icon: 'success',
-          title: 'Payment Deleted',
-          showConfirmButton: false,
-          timer: 1000,
-        });
-      }
-    });
-  };
-
+        if (result.isConfirmed) {
+            submitDelete(id);
+            Swal.fire({
+                icon: 'success',
+                text: "Success",
+                title: 'Record Deleted',
+                showConfirmButton: false,
+                timer: 1000
+            })
+        }
+    })
+}
   const handleEdit = (payment) => {
     setEdit(true);
     setId(payment.id);
@@ -86,6 +88,7 @@ const Payment = () => {
     await axios.put('http://localhost:8080/billing', updatedPayment).then(() => {
       Swal.fire({
         icon: 'success',
+        title: 'Updated',
         title: 'Payment Updated Successfully',
         showConfirmButton: false,
         timer: 1000,

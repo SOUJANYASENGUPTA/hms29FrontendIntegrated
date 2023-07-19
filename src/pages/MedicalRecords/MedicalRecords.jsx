@@ -1,12 +1,9 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles.css';
-// import NotificationIcon from '../../assets/icons/notification.svg';
-// import SettingsIcon from '../../assets/icons/settings.svg';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../components/DashboardHeader/styles.css'
 import DashboardHeader from '../../components/DashboardHeader';
-// import { sliceData, calculateRange } from '../../utils/table-pagination';
 const MedicalRecord = () => {
     const [records, setRecords] = useState([]);
     const [edit, setEdit] = useState(false);
@@ -18,29 +15,11 @@ const MedicalRecord = () => {
     const [date, setDate] = useState('');
     const [notes, setNotes] = useState('')
     const [prescription, setPrescription] = useState('')
-    // const [error, setError] = useState("")
-    // const [checkValid, setCheckValid] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    // const [page, setPage] = useState(1);
-    // const [pagination, setPagination] = useState([]);
-    // const [pagedRecords, setPagedRecords] = useState([]);
-    // const __handleChangePage = (new_page) => {
-    //     setPage(new_page);
-    //     setPagedRecords(sliceData(records, new_page, 7));
-    // }
-    // const fetchRecords = useCallback(async () => {
-    //     await axios.get('http://localhost:8080/medical-records').then((response) => {
-    //         setRecords(response.data);
-    //         if (response.data.length !== 0) {
-    //             setPagination(calculateRange(response.data, 7));
-    //             setPagedRecords(sliceData(response.data, page, 7));
-    //         }
-    //     });
-    // }, [page]);
-    const fetchRecords=async()=>{
-        await axios.get('http://localhost:8080/medical-records').then((response)=>{
+    const fetchRecords = async () => {
+        await axios.get('http://localhost:8080/medical-records').then((response) => {
             setRecords(response.data);
-        }).catch((err)=>{
+        }).catch((err) => {
 
         })
     }
@@ -55,7 +34,9 @@ const MedicalRecord = () => {
     }
     const handleDelete = (id) => {
         Swal.fire({
-            title: 'Do you want to Delete?',
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
             showDenyButton: true,
             confirmButtonText: 'Yes',
             denyButtonText: `No`,
@@ -64,6 +45,7 @@ const MedicalRecord = () => {
                 SubmitDelete(id);
                 Swal.fire({
                     icon: 'success',
+                    text: "Success",
                     title: 'Record Deleted',
                     showConfirmButton: false,
                     timer: 1000
@@ -93,20 +75,55 @@ const MedicalRecord = () => {
         setEdit(false);
         clearFields();
     }
-    const handleView = (record) => {
-        Swal.fire({
-            title: 'Medical Record Details',
-            html: `
-            <p><strong>Patient ID:</strong> ${record.patient_id}</p>
-            <p><strong>Doctor ID:</strong> ${record.doctor_id}</p>
-            <p><strong>Date:</strong> ${record.date}</p>
-            <p><strong>Diagnosis:</strong> ${record.diagnosis}</p>
-            <p><strong>Prescription:</strong> ${record.prescription}</p>
-            <p><strong>Notes:</strong> ${record.notes}</p>
-          `,
-            confirmButtonText: 'Close',
-            showConfirmButton: true,
-        });
+
+    const handleView = async (record) => {
+        // Swal.fire({
+        //     title: 'Loading....',
+        //     text: "Loading....",
+        //     showConfirmButton: false,
+        //     customClass: {
+        //         container: 'custom-swal-modal',
+        //     },
+        //     didOpen: () => {
+        //         Swal.showLoading();
+        //         loadData(record);
+        //     },
+        // });
+        loadData(record)
+    };
+
+    const loadData = async (record) => {
+        try {
+            const [patientResponse, doctorResponse] = await Promise.all([
+                axios.get(`http://localhost:8080/patient/${record.patient_id}`),
+                axios.get(`http://localhost:8080/staff/doctor/${record.doctor_id}`)
+            ]);
+
+            const patientData = patientResponse.data;
+            const doctorData = doctorResponse.data;
+
+            const htmlContent = `
+            <div style="text-align: left">
+                <p><strong>Patient Name: </strong>${patientData?.name}</p>
+                <p><strong>Age: </strong>${patientData?.age}</p>
+                <p><strong>Gender: </strong>${patientData?.gender}</p>
+                <p><strong>Medical History: </strong>${patientData?.medicalHistory}</p>
+                <p><strong>Doctor Name: </strong>${doctorData?.name}</p>
+                <p><strong>Date:</strong> ${record.date}</p>
+                <p><strong>Diagnosis:</strong> ${record.diagnosis}</p>
+                <p><strong>Prescription:</strong> ${record.prescription}</p>
+                <p><strong>Notes:</strong> ${record.notes}</p>
+            </div>
+            `;
+            Swal.fire({
+                title:"Medical Record Details",
+                html: htmlContent,
+                confirmButtonText: 'Close',
+                showConfirmButton: true,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
     const handleEditSubmit = async (e) => {
         e.preventDefault();
@@ -171,23 +188,6 @@ const MedicalRecord = () => {
             })
         })
     }
-    // const handleSearch = (e) => {
-    //     const query = e.target.value;
-    //     setSearchQuery(query);
-    //     console.log(page);
-    //     if (query !== '') {
-    //         const searchResults = records.filter((record) =>
-    //             record.id.toString().includes(query)
-    //         );
-    //         console.log(searchResults)
-    //         setPagination(calculateRange(searchResults, 7));
-    //         setPagedRecords(searchResults);
-    //     } else {
-    //         setPagination(calculateRange(records, 7))
-    //         setPagedRecords(sliceData(records, page, 7));
-    //     }
-    // };
-
     const clearFields = () => {
         setRecordId('')
         setDiagnosis('')
@@ -211,65 +211,64 @@ const MedicalRecord = () => {
                                 placeholder='Search...'
                                 className='dashboard-content-input'
                                 value={searchQuery}
-                                // onChange={(e) => handleSearch(e)}
-                                onChange={(e)=>setSearchQuery(e.target.value)}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                                 min="1"
                                 inputMode="numeric"
                             />
                         </div>
                     </div>
                     <table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>DATE</th>
-      <th>PATIENT ID</th>
-      <th>DOCTOR ID</th>
-      <th>DIAGNOSIS</th>
-       {/* <th>PRESCRIPTION</th> 
-      <th>NOTES</th> */}
-      <th>ACTIONS</th>
-    </tr>
-  </thead>
-  {records.length !== 0 && (
-    <tbody>
-      {records
-        .filter((record) => record.id.toString().includes(searchQuery))
-        .map((record) => (
-          <tr key={record.id}>
-            <td><span>{record.id}</span></td>
-            <td><span>{record.date}</span></td>
-            <td><span>{record.patient_id}</span></td>
-            <td><span>{record.doctor_id}</span></td>
-            <td>
-              <span>{record.diagnosis.length<14?record.diagnosis:record.diagnosis.substring(0, 14)+"..."}</span>
-            </td>
-            {/* <td>
-              {record.prescription.length < 14
-                ? record.prescription
-                : record.prescription.substring(0, 14) + "..."}
-            </td> */}
-            {/* <td>
-              {record.notes.length < 14
-                ? record.notes
-                : record.notes.substring(0, 14) + "..."}
-            </td> */}
-            <td>
-              <button onClick={() => handleEdit(record)} className="edit-save-btn">
-                Edit
-              </button>
-              <button onClick={() => handleDelete(record.id)} className="edit-back-btn">
-                Delete
-              </button>
-              <button className="view-btn" onClick={() => handleView(record)}>
-                View
-              </button>
-            </td>
-          </tr>
-        ))}
-    </tbody>
-  )}
-</table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>DATE</th>
+                                <th>PATIENT ID</th>
+                                <th>DOCTOR ID</th>
+                                <th>DIAGNOSIS</th>
+                                {/* <th>PRESCRIPTION</th> 
+                                <th>NOTES</th> */}
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        {records.length !== 0 && (
+                            <tbody>
+                                {records
+                                    .filter((record) => record.id.toString().includes(searchQuery))
+                                    .map((record) => (
+                                        <tr key={record.id}>
+                                            <td><span>{record.id}</span></td>
+                                            <td><span>{record.date}</span></td>
+                                            <td><span>{record.patient_id}</span></td>
+                                            <td><span>{record.doctor_id}</span></td>
+                                            <td>
+                                                <span>{record.diagnosis.length < 14 ? record.diagnosis : record.diagnosis.substring(0, 14) + "..."}</span>
+                                            </td>
+                                                                            {/* <td>
+                                            {record.prescription.length < 14
+                                                ? record.prescription
+                                                : record.prescription.substring(0, 14) + "..."}
+                                            </td> */}
+                                                                            {/* <td>
+                                            {record.notes.length < 14
+                                                ? record.notes
+                                                : record.notes.substring(0, 14) + "..."}
+                                            </td> */}
+                                            <td>
+                                                <button onClick={() => handleEdit(record)} className="edit-save-btn">
+                                                    Edit
+                                                </button>
+                                                <button onClick={() => handleDelete(record.id)} className="edit-back-btn">
+                                                    Delete
+                                                </button>
+                                                <button className="view-btn" onClick={() => handleView(record)}>
+                                                    View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        )}
+                    </table>
 
                     {/* {pagedRecords.length !== 0 ?
                         <div className='dashboard-content-footer'>

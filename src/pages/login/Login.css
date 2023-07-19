@@ -46,6 +46,7 @@ img{
   margin-bottom: 40px;
 }
 .left input {
+    outline: none;
     border: none;
     width: 80%;
     margin: 20px 0px;
@@ -61,6 +62,7 @@ img{
 	background: linear-gradient(-45deg, #dcd7e0, #fff);
 }
 .submit {
+  cursor: pointer;
     border: none;
     padding: 15px 70px;
     border-radius: 8px;

@@ -1,9 +1,8 @@
-import React from 'react'
-import './basicForm.css'
-// import { useNavigate } from 'react-router';
-
-const BasicForm = ({ loginSubmit, otpSubmit, viewOtpForm, ver }) => {
-  // const navigate = useNavigate();
+import React, { useState } from 'react'
+import './Login.css'
+const Login = (props) => {
+    const[phone,setPhone]=useState("")
+    const[password,setPassword]=useState("")
   return (
     <div>
 
@@ -11,25 +10,22 @@ const BasicForm = ({ loginSubmit, otpSubmit, viewOtpForm, ver }) => {
         <div className="login_box">
           <div className="left">
             <div className="contact">
-              {!viewOtpForm ?
-                (<form onSubmit={loginSubmit} id="loginForm">
+                <form onSubmit={(e)=>props.loginSubmit(e,phone,password)} id="loginForm">
                   <h3>SIGN IN</h3>
                   <input type="text"
                     placeholder="Phone"
                     name="phone"
-                    autoComplete="false" />
-                  <button className="send">
-                    <div className="spinner"></div>Send OTP
-                  </button>
-                </form>) :
-                (<form onSubmit={otpSubmit} id="otpForm">
-                  <input type="number"
-                    placeholder="One time password"
-                    name="otp_value"
-                    autoComplete="false" />
-
-                  <button className="submit" >VERIFY</button>
-                </form>)}
+                    autoComplete="false" 
+                    onChange={(e)=>setPhone(e.target.value)}
+                    required/>
+                    <br />
+                  <input type="password"
+                    placeholder="password"
+                    name="pass"
+                    onChange={(e)=>setPassword(e.target.value)}
+                    autoComplete="false" required />
+                  <button className="submit">Login</button>
+                </form>
             </div>
           </div>
           <div className="right">
@@ -44,4 +40,5 @@ const BasicForm = ({ loginSubmit, otpSubmit, viewOtpForm, ver }) => {
     </div>
   )
 }
-export default BasicForm;
+
+export default Login

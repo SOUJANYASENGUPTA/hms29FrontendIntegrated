@@ -4,13 +4,13 @@ import { useLocation } from 'react-router-dom';
 import SideBarItem from './sidebar-item';
 
 import './styles.css';
-import logo from '../../assets/images/neww-logo.png'
+// import logo from '../../assets/images/neww-logo.png'
 import LogoutIcon from '../../assets/icons/logout.svg';
 
-function SideBar ({ menu , signOut, user }) {
+function SideBar ({ menu , signOut}) {
     const location = useLocation();
 
-    const [active, setActive] = useState(1);
+    const [active, setActive] = useState();
 
     useEffect(() => {
         menu.forEach(element => {
@@ -18,7 +18,7 @@ function SideBar ({ menu , signOut, user }) {
                 setActive(element.id);
             }
         });
-    }, [location.pathname])
+    }, [location.pathname,menu])
 
     const __navigate = (id) => {
         setActive(id);
@@ -45,7 +45,7 @@ function SideBar ({ menu , signOut, user }) {
                         ))}
                     </div>
 
-                    <div className='sidebar-footer' onClick={signOut}>
+                    <div className='sidebar-footer' onClick={()=>{signOut()}}>
                         <span className='sidebar-item-label'>Logout</span>
                         <img 
                             src={LogoutIcon}

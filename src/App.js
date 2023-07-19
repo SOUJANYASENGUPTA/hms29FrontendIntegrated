@@ -1,231 +1,113 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import BasicForm from './pages/login/basicForm';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Outlet, Navigate } from 'react-router-dom';
 import SideBar from './components/Sidebar';
 import sidebar_menu from './constants/sidebar-menu';
-import { auth, firebase } from './pages/login/firebase';
-
 import './App.css';
-import Patient from './pages/Patients/Patient';
-import MedicalRecords from './pages/MedicalRecords/MedicalRecords';
-import Staff from './pages/Staff/Staff';
+import Patient from './pages/patients/Patient';
+import MedicalRecords from './pages/medicalrecords/MedicalRecords';
+import Staff from './pages/staff/Staff';
 import Pharmacy from './pages/pharmacy/Pharmacy';
 import Inventory from './pages/inventory/Inventory';
 import Appointment from './pages/appointment/Appointment';
 import Payment from './pages/billing/Billing';
 import Dashboard from './pages/dashboard/Dashboard';
-
+import Login from './pages/login/Login';
+import useAuth from './pages/login/Auth';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 function App() {
-  const [viewOtpForm, setViewOtpForm] = useState(false);
-  const [ver, setVer] = useState(false);
-  const [user, setUser] = useState(null);
-  const [authenticated, setAuthenticated] = useState(false);
-
-  const loginSubmit = (e) => {
-    e.preventDefault();
-
-    let phone_number = e.target.phone.value;
-    const appVerifier = window.recaptchaVerifier;
-
-    auth
-      .signInWithPhoneNumber(phone_number, appVerifier)
-      .then((confirmationResult) => {
-        console.log('otp sent');
-        setViewOtpForm(true);
-        window.confirmationResult = confirmationResult;
-        alert('OTP sent✅');
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-
-  const otpSubmit = (e) => {
-    e.preventDefault();
-
-    let opt_number = e.target.otp_value.value;
-
-    window.confirmationResult
-      .confirm(opt_number)
-      .then((userCredential) => {
-        console.log(userCredential);
-        console.log('success');
-        setAuthenticated(true);
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-
-  const signOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        window.open("/", "_self");
-        setAuthenticated(false);
-        setUser(null);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-      size: 'invisible',
-      callback: function (response) {
-        console.log('Captcha Resolved');
-      },
-      defaultCountry: 'IN',
-    });
-  }, []);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-        setAuthenticated(true);
-      } else {
-        setUser(null);
-        setAuthenticated(false);
+  const { authenticated, login, logout } = useAuth();
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Do you want to sign out?',
+      showDenyButton: true,
+      confirmButtonText: 'Yes',
+      denyButtonText: `No`,
+  }).then((result) => {
+      if (result.isConfirmed) {
+        // Swal.fire({
+        //   title:"Signing out...",
+        //   showConfirmButton:false,
+        //   timer:1200
+        // })
+        //   setTimeout(()=>{
+        //     logout();
+        //   },1300)
+        logout();
       }
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
+  })
+  };
+  const generateToken = () => {
+    var token = "";
+    for (var i = 0; i < 26; i++) {
+      var randomValue = Math.random();
+      if (randomValue < 0.5) {
+        token += String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+      } else {
+        token += String.fromCharCode(Math.floor(Math.random() * 10) + 48);
+      }
+    }
+    return token;
+  };
+  const loginSubmit = async (e, phone, password) => {
+    e.preventDefault();
+    await axios.get('http://localhost:8080/staff').then((response) => {
+      if (response.data) {
+        var staff = response.data;
+        var admin = staff?.find((st) => {
+          return st.phone === phone && "admin" === (st.jobTitle.toLowerCase());
+        })
+        if (admin !== undefined && password === "admin") {
+          const token = generateToken();
+          localStorage.setItem('authToken', token);
+          // Swal.fire({
+          //   title:"Signing in...",
+          //   showConfirmButton:false,
+          //   timer:1200
+          // })
+          //   setTimeout(()=>{
+          //     login(token)
+          //   },1300)
+          login(token)
+        }
+        else {
+          Swal.fire({
+            icon: "error",
+            title: "Invalid Details"
+          })
+        }
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+  const DashboardContainer = () => {
+    return (
+      <div className="dashboard-container">
+        <SideBar menu={sidebar_menu} signOut={handleLogout}/>
+        <div className="dashboard-body">
+          <Outlet />
+        </div>
+      </div>
+    );
+  };
   return (
     <Router>
-      <div id="recaptcha-container"></div>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              authenticated ? (
-                <Navigate to="/dashboard" />
-              ) : (
-                <BasicForm loginSubmit={loginSubmit} otpSubmit={otpSubmit} viewOtpForm={viewOtpForm} ver={ver} />
-              )
-            }
-          />
-            <React.Fragment>
-              <Route
-                path="/dashboard"
-                element={
-                 authenticated ? (
-                  <div className="dashboard-container">
-                    <SideBar menu={sidebar_menu} signOut={signOut} user={user} />
-                    <div className="dashboard-body">
-                      <Dashboard />
-                    </div>
-                  </div>):(
-                <BasicForm loginSubmit={loginSubmit} otpSubmit={otpSubmit} viewOtpForm={viewOtpForm} ver={ver} />
-              )
-                }
-              />
-              <Route
-                path="/patients"
-                element={
-                  authenticated?(
-                  <div className="dashboard-container">
-                    <SideBar menu={sidebar_menu} signOut={signOut} user={user} />
-                    <div className="dashboard-body">
-                      <Patient />
-                    </div>
-                  </div>):(
-                <BasicForm loginSubmit={loginSubmit} otpSubmit={otpSubmit} viewOtpForm={viewOtpForm} ver={ver} />
-              )
-                }
-              />
-              <Route
-                path="/records"
-                element={
-                  authenticated?(
-                  <div className="dashboard-container">
-                    <SideBar menu={sidebar_menu} signOut={signOut} user={user} />
-                    <div className="dashboard-body">
-                      <MedicalRecords />
-                    </div>
-                  </div>):(
-                <BasicForm loginSubmit={loginSubmit} otpSubmit={otpSubmit} viewOtpForm={viewOtpForm} ver={ver} />
-              )
-                }
-              />
-              <Route
-                path="/staff"
-                element={
-                  authenticated?(
-                  <div className="dashboard-container">
-                    <SideBar menu={sidebar_menu} signOut={signOut} user={user} />
-                    <div className="dashboard-body">
-                      <Staff />
-                    </div>
-                  </div>):(
-                <BasicForm loginSubmit={loginSubmit} otpSubmit={otpSubmit} viewOtpForm={viewOtpForm} ver={ver} />
-              )
-                }
-              />
-              <Route
-                path="/pharmacy"
-                element={
-                  authenticated?(
-                  <div className="dashboard-container">
-                    <SideBar menu={sidebar_menu} signOut={signOut} user={user} />
-                    <div className="dashboard-body">
-                      <Pharmacy />
-                    </div>
-                  </div>):(
-                <BasicForm loginSubmit={loginSubmit} otpSubmit={otpSubmit} viewOtpForm={viewOtpForm} ver={ver} />
-              )
-                }
-              />
-              <Route
-                path="/inventory"
-                element={
-                  authenticated?(
-                  <div className="dashboard-container">
-                    <SideBar menu={sidebar_menu} signOut={signOut} user={user} />
-                    <div className="dashboard-body">
-                      <Inventory />
-                    </div>
-                  </div>):(
-                <BasicForm loginSubmit={loginSubmit} otpSubmit={otpSubmit} viewOtpForm={viewOtpForm} ver={ver} />
-              )
-                }
-              />
-              <Route
-                path="/appointment"
-                element={
-                  authenticated?(
-                  <div className="dashboard-container">
-                    <SideBar menu={sidebar_menu} signOut={signOut} user={user} />
-                    <div className="dashboard-body">
-                      <Appointment />
-                    </div>
-                  </div>):(
-                <BasicForm loginSubmit={loginSubmit} otpSubmit={otpSubmit} viewOtpForm={viewOtpForm} ver={ver} />
-              )
-                }
-              />
-              <Route
-                path="/billing"
-                element={
-                  authenticated?(
-                  <div className="dashboard-container">
-                    <SideBar menu={sidebar_menu} signOut={signOut} user={user} />
-                    <div className="dashboard-body">
-                      <Payment />
-                    </div>
-                  </div>):(
-                <BasicForm loginSubmit={loginSubmit} otpSubmit={otpSubmit} viewOtpForm={viewOtpForm} ver={ver} />
-              )
-                }
-              />
-            </React.Fragment>
-          
-        </Routes>
+      <Routes>
+        <Route path="/login" element={authenticated ? <Navigate to="/" replace /> : <Login authenticated={authenticated} loginSubmit={loginSubmit} logout={handleLogout} />} />
+        <Route path="*" element={authenticated ? (<DashboardContainer />) : (<Navigate to="/login" replace />)}>
+          <Route index element={<Dashboard />} />
+          <Route path="patients" element={<Patient />} />
+          <Route path="records" element={<MedicalRecords />} />
+          <Route path="staff" element={<Staff />} />
+          <Route path="pharmacy" element={<Pharmacy />} />
+          <Route path="inventory" element={<Inventory />} />
+          <Route path="appointment" element={<Appointment />} />
+          <Route path="billing" element={<Payment />} />
+          <Route path="*" element={<>Page not found</>}></Route>
+        </Route>
+        <Route path="*" element={authenticated ? <DashboardContainer /> : <Navigate to="/login" replace />} />
+      </Routes>
     </Router>
   );
 }

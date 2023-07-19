@@ -30,7 +30,9 @@ const Inventory = () => {
     }
     const handleDelete = (id) => {
         Swal.fire({
-            title: 'Do you want to Delete?',
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
             showDenyButton: true,
             confirmButtonText: 'Yes',
             denyButtonText: `No`,
@@ -39,7 +41,8 @@ const Inventory = () => {
                 SubmitDelete(id);
                 Swal.fire({
                     icon: 'success',
-                    title: 'inventory Deleted',
+                    text: "Success",
+                    title: 'Inventory Deleted',
                     showConfirmButton: false,
                     timer: 1000
                 })
@@ -81,7 +84,8 @@ const Inventory = () => {
         await axios.put(`http://localhost:8080/inventory`, updatedinventory).then(() => {
             Swal.fire({
                 icon: 'success',
-                title: 'inventory Updated Successfully',
+                title: 'Updated',
+                text:"Inventory Updated Successfully",
                 showConfirmButton: false,
                 timer: 1000
             })
@@ -162,6 +166,7 @@ const Inventory = () => {
                                     .filter(inventory => {
                                         return (
                                             inventory.id.toString().includes(searchQuery) || inventory.name.toLowerCase().includes(searchQuery)
+                                            || inventory.category.toLowerCase().includes(searchQuery)
                                         );
                                     })
                                     .map((inventory) => {
